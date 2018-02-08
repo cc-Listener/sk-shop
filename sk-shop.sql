@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2018-02-07 17:56:35
+Date: 2018-02-08 19:01:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -39,7 +39,6 @@ INSERT INTO `big` VALUES ('22680', 'big/de7876887fed426497f358ddf4d152a0.jpg', '
 INSERT INTO `big` VALUES ('22702', 'big/e2987f1167a54c8fa0ac42ebec58cf18.jpg', 'topicNew/22702', '2,3,4,5');
 INSERT INTO `big` VALUES ('22792', 'big/05c61ad1b0b84fc8a460dd2df1201c9f.jpg', 'topicNew/22792', '51,53,55,57,59');
 INSERT INTO `big` VALUES ('22945', 'big/d8ce5b98e8f44215ad37da67d52c01a1.jpg', 'topicNew/22945', '4,6,8,10,13,15,17,19,21');
-INSERT INTO `big` VALUES ('23128', 'big/b8b4cd00e2044119a14d3a0774a1a724.jpg', 'topicNew/23128', '19,25,27,28,29,30');
 
 -- ----------------------------
 -- Table structure for category
@@ -75,6 +74,38 @@ INSERT INTO `category` VALUES ('19822', '美酒美食', 'Food & Wine', 'category
 INSERT INTO `category` VALUES ('21817', '鞋靴', 'Shoes', 'category/undefined', 'topicNew/21817', '4');
 INSERT INTO `category` VALUES ('23022', '包袋', 'Bags', 'category/96b10e7097b34b9887fb038809b501a3.jpg', 'topicNew/23022', '5');
 INSERT INTO `category` VALUES ('23167', '营养保健', 'Nutrition', 'category/6e9ced34abb84ca28c50f969fa1b3b16.jpg', 'topicNew/23167', '4,15,17,19,21');
+
+-- ----------------------------
+-- Table structure for floor
+-- ----------------------------
+DROP TABLE IF EXISTS `floor`;
+CREATE TABLE `floor` (
+  `floor` varchar(255) DEFAULT NULL,
+  `img` varchar(255) DEFAULT NULL,
+  `name` varchar(999) DEFAULT NULL,
+  `price` varchar(255) DEFAULT NULL,
+  `id` int(11) DEFAULT NULL,
+  `second_price` varchar(255) DEFAULT NULL,
+  `project_id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`project_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=274 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of floor
+-- ----------------------------
+INSERT INTO `floor` VALUES ('47', 'https://pic12.secooimg.com/product/300/300/10/53/d55d39efe6154966bf2c264e72c7b128.jpg', 'Kinsole/清尚 手作复古光学镜架39KF', '968', '22790', '', '261');
+INSERT INTO `floor` VALUES ('47', 'https://pic12.secooimg.com/product/300/300/53/98/5b15dc28607c40c2a48c72998f9124c2.jpg', 'Kinsole/清尚20光学镜架防眩光时尚潮流金属47KF', '958', '22790', '', '262');
+INSERT INTO `floor` VALUES ('47', 'https://pic12.secooimg.com/product/300/300/50/37/14005037.jpg', 'Ray-Ban/雷朋光学 时尚休闲眼镜架RB3447V', '633', '22790', '', '263');
+INSERT INTO `floor` VALUES ('47', 'https://pic12.secooimg.com/product/300/300/50/98/2be8926bad0741e39fa26f40bc723319.JPG', 'Ray-Ban/雷朋眼镜框 RB7073 2012 男女款复古圆框近视镜架', '750', '22790', '', '264');
+INSERT INTO `floor` VALUES ('47', 'https://pic12.secooimg.com/product/300/300/99/10/cf35ecf0f20942c5957051be495af865.jpg', 'Kinsole/清尚 手作复古光学镜架42KF', '858', '22790', '', '265');
+INSERT INTO `floor` VALUES ('47', 'https://pic12.secooimg.com/product/300/300/57/49/912c56f2514249308d7bd4aebe3a9276.jpg', 'OPTICALW James(Metal)系列光学镜架 OPJAMES-C01', '1808', '22790', '', '266');
+INSERT INTO `floor` VALUES ('47', 'https://pic12.secooimg.com/product/300/300/49/99/1cfeebc7847f4c4aa63601c11cba5343.JPG', 'Ray-Ban/雷朋光学镜架 RB7111 5692 男女款复古双梁近视眼镜框', '600', '22790', '', '267');
+INSERT INTO `floor` VALUES ('47', 'https://pic12.secooimg.com/product/300/300/06/50/16130650.jpg', 'Armani/阿玛尼  眼镜 0AR 5024J 3003', '1182', '22790', '', '268');
+INSERT INTO `floor` VALUES ('47', 'https://pic12.secooimg.com/product/300/300/10/49/f1fc0e12131c4899bef12a28d1659e57.jpg', '【韩国直邮】STEELBYSTEALER ST 602系列银色眼镜框 ST602_Silver (STL03)', '1942', '22790', '', '269');
+INSERT INTO `floor` VALUES ('47', 'https://pic12.secooimg.com/product/300/300/56/99/8c7061398df84ba19253628cb176ef02.jpg', '【韩国直邮】STEELBYSTEALER DIN系列黑色眼镜框 DIN_STL01', '1860', '22790', '', '270');
+INSERT INTO `floor` VALUES ('47', 'https://pic12.secooimg.com/product/300/300/55/10/7f3c85bc5d2d49eda9631c57d7f87a4d.jpg', 'CALIPHASH 【订制商品】Opinio 系列光学镜架 OPINIO_02(GLASSES)', '2266', '22790', '', '271');
+INSERT INTO `floor` VALUES ('47', 'https://pic12.secooimg.com/product/300/300/98/49/b168ede206f64a46baeaf9ff7b62b28a.JPG', 'EJE OPTICO SISTEMA/EJE OPTICO SISTEMA复古圆框近视镜架 J2109 男女钛架EOS眼镜框', '1313', '22790', '', '272');
+INSERT INTO `floor` VALUES ('47', 'https://pic12.secooimg.com/product/300/300/10/98/fbe2bc9bf229457696b268a6a1e67c06.jpg', 'PRADA/普拉达2017春夏款摩登潮款光学眼镜', '1306', '22790', '1122', '273');
 
 -- ----------------------------
 -- Table structure for swiper
@@ -151,7 +182,7 @@ CREATE TABLE `week_good` (
 -- ----------------------------
 -- Records of week_good
 -- ----------------------------
-INSERT INTO `week_good` VALUES ('15529', 'week/b179ccc3780649aca90be639bafb4ce7.jpg', 'topicNew/15529', null);
+INSERT INTO `week_good` VALUES ('15529', 'week/b179ccc3780649aca90be639bafb4ce7.jpg', 'topicNew/15529', '');
 INSERT INTO `week_good` VALUES ('22439', 'week/412c7a6d782a433dbb87c3f54311fa35.jpg', 'topicNew/22439', '54,56');
 INSERT INTO `week_good` VALUES ('22441', 'week/271aa54b0b3341a98ab80370820960f0.jpg', 'topicNew/22441', '70,72,74,76,78,80');
 INSERT INTO `week_good` VALUES ('22789', 'week/36d3a5d3253f454bac6b262c1f679c9d.jpg', 'topicNew/22789', '51,52,53,54');

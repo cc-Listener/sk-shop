@@ -26,46 +26,49 @@
     name: 'User'
   }
 </script>
-<style>
-  body{
-    background-color: #f9f9f9;
-  }
+<style lang="scss">
   #user{
-    font-size: 32px;
-  }
-  .user-item{
-    display: flex;
-    background-color: #fff;
-  }
-  .icon-user{
-    background-position: -73px -2px; /*no*/
-    margin-right: 20px;
-  }
-  .icon-right{
-    width: 44px;
-    height: 44px;
-    background-position: -35px -75px; /*no*/
-  }
-  .borderTop{
-    border-top: 1px solid #ccc;
-  }
-  .borderBottom{
-    border-bottom: 1px solid #ccc;
-  }
-  .usercenter_list{
-    margin: 44px 0;
-  }
-  .tablelist{
-    height: 88px;
-    display: flex;
-    align-items: center;
-    padding: 0 30px;
-    background-color: #fff;
-  }
-  .list_r{
-    flex:1;
+    position: absolute;
+    width: 100%;
     height: 100%;
-    display: flex;
-    align-items: center;
+    font-size: 32px;
+    background-color: #f9f9f9;
+
+    .user-item{
+      display: flex;
+      background-color: #fff;
+    }
+    .icon-user{
+      background-position: -73px -2px; /*no*/
+      margin-right: 20px;
+    }
+    .icon-right{
+      width: 44px;
+      height: 44px;
+      background-position: -35px -75px; /*no*/
+    }
+    .borderTop{
+      border-top: 1px solid #ccc;
+    }
+    .borderBottom{
+      border-bottom: 1px solid #ccc;
+    }
+    .usercenter_list{
+      margin: 44px 0;
+    }
+    .tablelist{
+      height: 88px;
+      display: flex;
+      align-items: center;
+      padding: 0 30px;
+      background-color: #fff;
+    }
+    .list_r{
+      flex:1;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
   }
+
 </style>
