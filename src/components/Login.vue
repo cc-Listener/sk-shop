@@ -4,12 +4,12 @@
       <span>
         <div class="txt-left">账号：</div>
         <input type="text" style="display: none" />
-        <input type="text" placeholder="请输入账号" @change="saveData" data-type="username" />
+        <input type="text" placeholder="请输入账号" v-model="username" />
       </span>
       <span>
         <div class="txt-left">密码：</div>
         <input type="text" style="display: none" />
-        <input type="password" placeholder="请输入密码" @change="saveData" data-type="password" />
+        <input type="password" placeholder="请输入密码" v-model="password" />
       </span>
       <p class="btn_submit" @click="submit">登录</p>
       <p class="register-btn" @click="toRegister">立即注册</p>
@@ -17,7 +17,7 @@
   </div>
 </template>
 <script>
-import { baseImgUrl } from '../../config/config';
+import { baseImgUrl, HOST } from '../../config/config';
 import crypto from 'crypto';
 
 var md5 = crypto.createHash('md5');
@@ -27,26 +27,20 @@ export default {
   data () {
     return {
       username: '',
-      password: '',
-      phonenum: ''
+      password: ''
     }
   },
   methods: {
     toRegister() {
       this.$router.push('/register');
     },
-    saveData: function(e) {
-      var {type} = e.target.dataset;
-      var value = e.target.value;
-      if( type = 'password' ) {
-        value = md5.update(value).digest('hex');
-      }
-      this[`${type}`] = value;
-    },
     submit: function () {
-      this.$http.post('/api/login', {
+      // var password = md5.update(this.password).digest('hex');
+      var password = 2222;
+      console.log(password);
+      this.$http.post(`${HOST}/login`, {
         username: this.username,
-        password: this.password
+        password: 123
       })
       .then(res => {
         if( res.data.status == 1 ) {

@@ -36,7 +36,7 @@
 </template>
 <script>
   import { Swiper, Slide } from 'vue-swiper-component';
-  import { baseImgUrl } from '../../config/config.js';
+  import { baseImgUrl, HOST } from '../../config/config.js';
   import Tab from '../components/Tab.vue';
   export default {
     name: 'Index',
@@ -56,7 +56,7 @@
 
     },
     created() {
-      this.$http.get(`http://localhost:3000/index_data`)
+      this.$http.get(`${HOST}/api/index_data`)
       .then( res => {
         this.swiper = res.data.swiper;
         this.indexData = res.data;

@@ -1,7 +1,6 @@
 .DS_Store
 node_modules/
 /shop-server/node_modules/
-/shop-server/public/images/
 /dist/
 npm-debug.log*
 yarn-debug.log*
