@@ -21,7 +21,7 @@ app.set('view engine', 'jade');
 
 app.use(session({
  secret: 'sessiontest',//与cookieParser中的一致
- resave: true,
+ resave: false,
  saveUninitialized:true
 }));
 

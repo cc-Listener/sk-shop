@@ -10,7 +10,10 @@ router.get('/', function(req, res, next) {
 });
 router.get('/index_data', function(req, res, next) {
     var indexData = {};
-    console.log(req.session);
+    setTimeout(() => {
+
+    console.log(req);
+    },5000);
     async.parallel([
         function(cb) {
             connection.query('select * from swiper', function(err, result) {
