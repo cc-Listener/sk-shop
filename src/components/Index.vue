@@ -56,7 +56,7 @@
 
     },
     created() {
-      this.$http.get(`/api/index_data`)
+      this.$http.get(`http://localhost:3000/index_data`)
       .then( res => {
         this.swiper = res.data.swiper;
         this.indexData = res.data;
