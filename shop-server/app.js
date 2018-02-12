@@ -8,9 +8,8 @@ var session = require('express-session');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-var login = require('./routes/login');
 var register = require('./routes/register');
-var api = require('./routes/api');
+var data = require('./routes/data');
 var cors = require('cors');
 
 var app = express();
@@ -19,26 +18,29 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(session({
- secret: 'sessiontest',//与cookieParser中的一致
- resave: false,
- saveUninitialized:true
-}));
+app.use(cookieParser());
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser('sessiontest'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
+app.use(session({
+    secret: 'demo_test',
+    name: 'mydemo',                         //这里的name值得是cookie的name，默认cookie的name是：connect.sid
+    cookie: {  maxAge: 30 * 60 * 1000 },    //设置maxAge是30分钟，即30分钟后session和相应的cookie失效过期
+    resave: true,                         // 每次请求都重新设置session cookie
+    saveUninitialized: true                // 无论有没有session cookie，每次请求都设置个session cookie
+}));
+
+
 app.use('/', index);
 app.use('/users', users);
-app.use('/login', login)
 app.use('/register', register)
-app.use('/api', api)
+app.use('/data', data)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

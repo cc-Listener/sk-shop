@@ -37,10 +37,11 @@ export default {
     submit: function () {
       // var password = md5.update(this.password).digest('hex');
       var password = 2222;
-      console.log(password);
-      this.$http.post(`${HOST}/login`, {
+      this.$http.post(`/data/login`, {
         username: this.username,
         password: 123
+      },{
+          emulateJSON:true//一定要写上这句话
       })
       .then(res => {
         if( res.data.status == 1 ) {

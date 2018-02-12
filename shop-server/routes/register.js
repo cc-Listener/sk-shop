@@ -19,7 +19,7 @@ router.post('/', function(req, res, next) {
 			})
 		}
 	} )
-	
+
 } );
 router.get('/checkname', function(req, res, next) {
 	var { name } = req.query;
@@ -39,7 +39,7 @@ router.get('/checkname', function(req, res, next) {
 				})
 			}
 		}
-		
+
 	} );
 } )
 

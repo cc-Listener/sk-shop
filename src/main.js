@@ -6,6 +6,8 @@ import router from './router'
 import 'lib-flexible'
 import axios from 'axios'
 
+axios.defaults.baseURL = '/api'
+
 Vue.prototype.$http = axios
 
 Vue.config.productionTip = false
