@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Index from '@/components/Index'
-import Login from '@/components/Login'
-import User from '@/components/User'
-import Register from '@/components/Register'
-import Detail from '@/components/Detail'
+import Index from '@/view/Index'
+import Login from '@/view/Login'
+import User from '@/view/User'
+import Register from '@/view/Register'
+import Detail from '@/view/Detail'
 
 Vue.use(Router)
 

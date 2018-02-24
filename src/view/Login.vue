@@ -34,7 +34,7 @@ export default {
     toRegister() {
       this.$router.push('/register');
     },
-    submit: function () {
+    submit () {
       // var password = md5.update(this.password).digest('hex');
       var password = 2222;
       this.$http.post(`/data/login`, {

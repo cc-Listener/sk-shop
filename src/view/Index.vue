@@ -7,29 +7,33 @@
     </Swiper>
 
     <div class="tab-view">
-      <div v-for="(item, key ) in indexData.tab" :key="key" class="tab-item">
+      <router-link :to="{path: '/detail', query: {id: item.id}}" v-for="(item, key ) in indexData.tab" :key="key" class="tab-item">
         <img :src="baseImgUrl + item.img" />
         <span>{{item.title}}</span>
-      </div>
+      </router-link>
     </div>
 
     <div class="big-view">
-      <img v-for="(item, key ) in indexData.big" :key="key" :src="baseImgUrl + item.img" />
+      <router-link :to="{path: '/detail', query: {id: item.id}}" v-for="(item, key ) in indexData.big" :key="key">
+        <img :src="baseImgUrl + item.img" />
+      </router-link>
     </div>
 
     <div class="category-title">分类 CATEGORY</div>
     <div class="category-view">
-      <div v-for="(item, key ) in indexData.category" :key="key" class="category-item">
+      <router-link to="{path: '/detail', query: {id: item.id}}" v-for="(item, key ) in indexData.category" :key="key" class="category-item">
         <img :src="baseImgUrl + item.img" />
         <div class="title-view">
           <p>{{item.title}}</p>
           <span>{{item.subTitle}}</span>
         </div>
-      </div>
+      </router-link>
     </div>
 
     <div class="week-view">
-      <img v-for="(item, key ) in indexData.week" :key="key" :src="baseImgUrl + item.img" />
+      <router-link :to="{path: '/detail', query: {id: item.id}}" v-for="(item, key ) in indexData.week_good" :key="key">
+        <img :src="baseImgUrl + item.img" />
+      </router-link>
     </div>
     <Tab />
   </div>
