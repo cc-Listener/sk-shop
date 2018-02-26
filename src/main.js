@@ -5,6 +5,12 @@ import App from './App'
 import router from './router'
 import 'lib-flexible'
 import axios from 'axios'
+import VueLazyLoad from 'vue-lazyload'
+Vue.use(VueLazyLoad)
+// Vue.use(VueLazyLoad,{
+//     error:'./static/error.jpg',
+//     loading:'./assets/images/timg.gif'
+// })
 
 axios.defaults.baseURL = '/api'
 

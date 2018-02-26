@@ -30,7 +30,7 @@ router.get('/detail', function(req, res, next) {
     var { id, p, page_size } = req.query;
     p = p || 1;
     page_size = page_size || 10;
-    connection.query(`select * from floor where id=${id} limit ${(p-1)*10},${page_size * p}`, function (err, result) {
+    connection.query(`select * from floor where id=${id} limit ${(p-1)*page_size},${page_size}`, function (err, result) {
         if(err){
             res.send(err.sqlMessage);
         } else {

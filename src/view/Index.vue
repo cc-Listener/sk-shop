@@ -2,27 +2,29 @@
   <div class="index">
     <Swiper v-if="swiper.length > 0" :autoPlay='true' :showIndicator='true' interval="3000" duration="500">
       <Slide v-for="(item, key) in swiper" :key="key">
-        <img :src="baseImgUrl + item.img" />
+        <router-link :to="{path: '/detail', query: {id: item.id, title: item.title}}">
+          <img v-lazy="baseImgUrl + item.img" />
+        </router-link>
       </Slide>
     </Swiper>
 
     <div class="tab-view">
-      <router-link :to="{path: '/detail', query: {id: item.id}}" v-for="(item, key ) in indexData.tab" :key="key" class="tab-item">
-        <img :src="baseImgUrl + item.img" />
+      <router-link :to="{path: '/detail', query: {id: item.id, title: item.title}}" v-for="(item, key ) in indexData.tab" :key="key" class="tab-item">
+        <img v-lazy="baseImgUrl + item.img" />
         <span>{{item.title}}</span>
       </router-link>
     </div>
 
     <div class="big-view">
-      <router-link :to="{path: '/detail', query: {id: item.id}}" v-for="(item, key ) in indexData.big" :key="key">
-        <img :src="baseImgUrl + item.img" />
+      <router-link :to="{path: '/detail', query: {id: item.id, title: item.title}}" v-for="(item, key ) in indexData.big" :key="key">
+        <img v-lazy="baseImgUrl + item.img" />
       </router-link>
     </div>
 
     <div class="category-title">分类 CATEGORY</div>
     <div class="category-view">
-      <router-link to="{path: '/detail', query: {id: item.id}}" v-for="(item, key ) in indexData.category" :key="key" class="category-item">
-        <img :src="baseImgUrl + item.img" />
+      <router-link :to="{path: '/detail', query: {id: item.id, title: item.title}}" v-for="(item, key ) in indexData.category" :key="key" class="category-item">
+        <img v-lazy="baseImgUrl + item.img" />
         <div class="title-view">
           <p>{{item.title}}</p>
           <span>{{item.subTitle}}</span>
@@ -40,7 +42,7 @@
 </template>
 <script>
   import { Swiper, Slide } from 'vue-swiper-component';
-  import { baseImgUrl, HOST } from '../../config/config.js';
+  import { baseImgUrl } from '../../config/config.js';
   import Tab from '../components/Tab.vue';
   export default {
     name: 'Index',
@@ -118,9 +120,11 @@
   }
   .category-view {
     .category-item{
+      display: inline-block;
       position: relative;
       font-size: 0;
       margin-bottom: 20px;
+      height: 250px;
     }
 
     img{
