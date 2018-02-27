@@ -45,6 +45,7 @@ export default {
       })
       .then(res => {
         if( res.data.status == 1 ) {
+          this.globalData.login = true;
           this.$router.push('/');
         }
       } ), res => {

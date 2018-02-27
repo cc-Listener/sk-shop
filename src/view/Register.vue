@@ -77,7 +77,7 @@ var md5 = crypto.createHash('md5');
           return
         }
         if( type == 'username' ) {
-          this.$http.get(`/api/register/checkname?name=${value}`)
+          this.$http.get(`/data/checkname?name=${value}`)
           .then( res => {
             const data = res.data;
             if( data.status == 0 ) {
@@ -155,7 +155,7 @@ var md5 = crypto.createHash('md5');
         var result = md5.update(saltPassword).digest('hex');
       },
       submit: function () {
-        this.$http.post('/api/register', {
+        this.$http.post('/data/register', {
           username: this.username,
           password: md5.update(this.password).digest('hex'),
           create_time: this.timeFormatter(),

@@ -1,6 +1,6 @@
 <template>
   <div id="header">
-    <span class="icon" />
+    <span class="icon" @click="goBack" />
     <span>{{title}}</span>
   </div>
 </template>
@@ -10,6 +10,11 @@
     data() {
       return {
 
+      }
+    },
+    methods:{
+      goBack() {
+        this.$router.go(-1)
       }
     },
     props: ['title']

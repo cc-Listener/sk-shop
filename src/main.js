@@ -16,6 +16,10 @@ axios.defaults.baseURL = '/api'
 
 Vue.prototype.$http = axios
 
+Vue.prototype.globalData = {
+  login: false
+}
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
