@@ -49,7 +49,7 @@
     components: {
       Swiper,
       Slide,
-      Tab
+      Tab,
     },
     data() {
       return {
