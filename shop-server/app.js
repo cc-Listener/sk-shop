@@ -7,8 +7,6 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
-var register = require('./routes/register');
 var data = require('./routes/data');
 var cors = require('cors');
 
@@ -38,8 +36,6 @@ app.use(session({
 
 
 app.use('/', index);
-app.use('/users', users);
-app.use('/register', register)
 app.use('/data', data)
 
 // catch 404 and forward to error handler
