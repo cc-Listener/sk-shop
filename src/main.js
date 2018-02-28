@@ -6,13 +6,10 @@ import router from './router'
 import 'lib-flexible'
 import axios from 'axios'
 import VueLazyLoad from 'vue-lazyload'
+import { HOST } from '../config/config.js';
 Vue.use(VueLazyLoad)
-// Vue.use(VueLazyLoad,{
-//     error:'./static/error.jpg',
-//     loading:'./assets/images/timg.gif'
-// })
 
-axios.defaults.baseURL = '/api'
+axios.defaults.baseURL = HOST
 
 Vue.prototype.$http = axios
 

@@ -62,7 +62,7 @@
 
     },
     created() {
-      this.$http.get(`/data/index_data`)
+      this.$http.get(`data/index_data`)
       .then( res => {
         this.swiper = res.data.swiper;
         this.indexData = res.data;

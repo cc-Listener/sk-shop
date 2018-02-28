@@ -34,7 +34,7 @@
       getDetailData(){
         this.requestStatus = false;
         var id = this.$route.query.id;
-        this.$http.get(`/data/detail?id=${id}&p=${this.p}&page_size=20`)
+        this.$http.get(`data/detail?id=${id}&p=${this.p}&page_size=20`)
           .then( res => {
             if( res.data.length === 0 ) {
               this.noData = true;

@@ -8,7 +8,7 @@ var cors = require('cors');
 router.get('/', function(req, res, next) {
     res.send('api demo');
 });
-
+// 首页数据
 router.get('/index_data', function(req, res, next) {
     console.log(req.session);
     var reqArr = ['swiper', 'big', 'category', 'tab', 'week_good'];
@@ -26,7 +26,7 @@ router.get('/index_data', function(req, res, next) {
         })
     });
 });
-
+// 首页专题详情
 router.get('/detail', function(req, res, next) {
     var { id, p, page_size } = req.query;
     p = p || 1;
@@ -39,7 +39,7 @@ router.get('/detail', function(req, res, next) {
         }
     })
 });
-
+// 品牌列表
 router.get('/brand_list', function(req, res, next) {
 
     connection.query(`SELECT * FROM brand ORDER BY cap`, function (err, result) {
@@ -66,6 +66,8 @@ router.get('/brand_list', function(req, res, next) {
         }
     })
 });
+
+// 判断姓名是否存在
 router.get('/checkname', function(req, res, next) {
     var { name } = req.query;
     connection.query(`select * from user where username='${name}'`, function(err, result) {
@@ -87,6 +89,8 @@ router.get('/checkname', function(req, res, next) {
 
     } );
 } )
+
+// 注册接口
 router.post('/register', function(req, res, next) {
     var { username, password, create_time, phonenum } = req.body;
     var insertSql = `insert into user (username, password, create_time, phonenum) values ('${username}', '${password}', '${create_time}', '${phonenum}')`;
@@ -106,6 +110,8 @@ router.post('/register', function(req, res, next) {
     } )
 
 } );
+
+// 登陆接口
 router.post('/login', function(req, res, next) {
     console.log(req.session.user);
     var {

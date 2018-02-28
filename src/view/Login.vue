@@ -37,7 +37,7 @@ export default {
     submit () {
       // var password = md5.update(this.password).digest('hex');
       var password = 2222;
-      this.$http.post(`/data/login`, {
+      this.$http.post(`data/login`, {
         username: this.username,
         password: 123
       },{
