@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
 // 首页数据
 router.get('/index_data', function(req, res, next) {
     console.log(req.session);
-    var reqArr = ['swiper', 'big', 'category', 'tab', 'week_good'];
+    var reqArr = ['swiper', 'big', 'index_category', 'tab', 'week_good'];
     var indexData = {};
     reqArr.map((item, index) => {
         connection.query(`select * from ${item}`, function(err, result) {

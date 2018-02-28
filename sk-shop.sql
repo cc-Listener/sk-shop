@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2018-02-28 17:44:17
+Date: 2018-02-28 18:03:07
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -3127,35 +3127,31 @@ INSERT INTO `brand` VALUES ('7986', 'JOUR/NÉ', 'JOUR/NÉ', 'J');
 -- ----------------------------
 DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
-  `id` int(11) NOT NULL,
-  `title` varchar(255) DEFAULT NULL,
-  `subTitle` varchar(255) DEFAULT NULL,
-  `img` varchar(255) DEFAULT NULL,
-  `pageid` varchar(255) DEFAULT NULL,
-  `floors` varchar(255) DEFAULT NULL,
+  `eName` varchar(255) DEFAULT NULL,
+  `cName` varchar(255) DEFAULT NULL,
+  `id` varchar(255) NOT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `child` varchar(9999) DEFAULT NULL,
+  `childId` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of category
 -- ----------------------------
-INSERT INTO `category` VALUES ('14615', '腕表', 'Watches', 'category/f15bbf29633e49b688700b3a6d0b94ed.jpg', 'topicNew/14615', '4,6,14');
-INSERT INTO `category` VALUES ('14616', '珠宝首饰', 'Jewelry', 'category/6be7e272906c47538c35e5e0d67c996e.jpg', 'topicNew/14616', '4,17,18,19,20');
-INSERT INTO `category` VALUES ('14622', '美妆', 'Beauty', 'category/885ab1ee35fe4686bfcbf1ef5af64a03.jpg', 'topicNew/14622', '3,5,7,9,11,21');
-INSERT INTO `category` VALUES ('14626', '配饰', 'Accessories', 'category/516a65cba3884658b3817a80b6913576.jpg', 'topicNew/14626', '3,6,8,10,12,14');
-INSERT INTO `category` VALUES ('14627', '家居生活', 'Home', 'category/287e086122be4949a77cead02272af34.jpg', 'topicNew/14627', '3,6');
-INSERT INTO `category` VALUES ('14630', '母婴', 'Mother&Children', 'category/f7c7410ac9c841ee998e7c56376a4c82.jpg', 'topicNew/14630', '3,5,36');
-INSERT INTO `category` VALUES ('14764', '设计师品牌', 'Designer Brand', 'category/e05c6cf388a14c5bb09ea8f50b0ad328.jpg', 'topicNew/14764', '4,8,10,12,14,16');
-INSERT INTO `category` VALUES ('15231', '奥莱特卖', 'Sale', 'category/8ec59c6eb88e46afbfd6400a27d48d5b.jpg', 'topicNew/15231', '2');
-INSERT INTO `category` VALUES ('15482', '家电数码', '3C', 'category/c70690a5755c4e359d7a4318c665e4f3.jpg', 'topicNew/15482', '7,18,20,22,26,27,28,29');
-INSERT INTO `category` VALUES ('15524', '服装', 'Clothing', 'category/dca1969bd854488db8c58edd2ee30672.jpg', 'topicNew/15524', '3,21');
-INSERT INTO `category` VALUES ('15757', '豪车', 'Luxury car ', 'category/9ab7dd67751f41c98e0e1f98f0ebb493.jpg', 'topicNew/15757', '15');
-INSERT INTO `category` VALUES ('17507', '名物', 'Secoo Ming', 'category/2b128b676c904159b14cf9825cf44854.jpg', 'topicNew/17507', '6,8,10,12,25');
-INSERT INTO `category` VALUES ('19007', '运动户外', 'Sports&Outdoor', 'category/0b06893b40bc4139aff60e75c79ec48c.jpg', 'topicNew/19007', '4,6');
-INSERT INTO `category` VALUES ('19822', '美酒美食', 'Food & Wine', 'category/29dbf58f23214bd6bebafa90c04188be.jpg', 'topicNew/19822', '4,6,8,20');
-INSERT INTO `category` VALUES ('21817', '鞋靴', 'Shoes', 'category/undefined', 'topicNew/21817', '4');
-INSERT INTO `category` VALUES ('23022', '包袋', 'Bags', 'category/96b10e7097b34b9887fb038809b501a3.jpg', 'topicNew/23022', '5');
-INSERT INTO `category` VALUES ('23167', '营养保健', 'Nutrition', 'category/6e9ced34abb84ca28c50f969fa1b3b16.jpg', 'topicNew/23167', '4,15,17,19,21');
+INSERT INTO `category` VALUES ('LIFE STYLE', '生活方式', '_1108_', 'http://mpic.secooimg.com/images/2016/03/17/life.jpg', '美食', '_1108_1110_');
+INSERT INTO `category` VALUES ('Bags', '包袋', '_30_', 'http://mpic.secooimg.com/images/2016/03/14/bags.jpg', '单肩包,手提包,斜挎包,公文包,钱包,手包,双肩包,旅行包,拉杆箱,化妆包,腰包,小型皮具', '_30_31_,_30_33_,_30_32_,_30_34_,_30_40_,_30_37_,_30_339_,_30_39_,_30_568_,_30_36_,_30_38_,_30_41_');
+INSERT INTO `category` VALUES ('Automotive & Industrial', '豪车', '_353_', 'http://mpic.secooimg.com/images/2016/03/14/haoche.jpg', '新车,平行进口车,二手车,赛道服饰,智能车,飞行器,精品周边,车载电器,车饰美容,自驾装备,豪车精品,儿童车品', '_353_706_,_353_774_,_353_707_,_353_1171_,_353_437_,_353_697_,_353_570_,_353_778_,_353_779_,_353_780_,_353_996_,_353_1122_');
+INSERT INTO `category` VALUES ('Home', '家居', '_359_', 'http://mpic.secooimg.com/images/2016/03/14/jiaju.jpg', '商务礼品,家纺,厨房用品,烹饪锅具,电子产品,居家日用,桌上用具,水杯水具,卫浴,家居饰品,美容健康', '_359_365_,_359_364_,_359_797_,_359_796_,_359_544_,_359_414_,_359_798_,_359_809_,_359_384_,_359_395_,_359_643_');
+INSERT INTO `category` VALUES ('Aircraft & Yacht', '飞机与游艇', '_424_', 'http://mpic.secooimg.com/images/2016/03/14/feiji.jpg', '私人飞机,包机,小时卡,航线,帆船,游艇', '_424_425_,_424_426_,_424_427_,_424_428_,_424_1004_,_424_645_');
+INSERT INTO `category` VALUES ('Beauty', '美妆', '_464_', 'http://mpic.secooimg.com/images/2016/03/14/meizhuang.jpg', '面部护理,香氛,魅惑彩妆,身体护理,成人用品', '_464_465_,_464_466_,_464_467_,_464_468_,_464_550_');
+INSERT INTO `category` VALUES ('Jewelry', '首饰', '_66_', 'http://mpic.secooimg.com/images/2016/03/14/shipin.jpg', '项饰/吊坠,手镯/手链,戒指/指环,耳饰,摆件,首饰套装,挂饰,胸饰,头饰,宝石裸石,其他', '_66_115_,_66_116_,_66_117_,_66_103_,_66_107_,_66_112_,_66_106_,_66_104_,_66_358_,_66_105_,_66_114_');
+INSERT INTO `category` VALUES ('Sports & Outdoors', '户外', '_834_', 'http://mpic.secooimg.com/images/2016/03/14/huwai.jpg', '鞋服,球具,装备,器械', '_834_835_,_834_837_,_834_845_,_834_836_');
+INSERT INTO `category` VALUES ('Maternity & Baby', '母婴', '_856_', 'http://mpic.secooimg.com/images/2016/03/14/muying.jpg', '喂养用品,尿裤湿巾,洗护用品,孕妇用品,童车童床,玩具,寝具用品,宝宝家居,出行用品,童装,童鞋,婴幼儿服饰', '_856_557_,_856_553_,_856_561_,_856_619_,_856_559_,_856_556_,_856_916_,_856_944_,_856_952_,_856_513_,_856_520_,_856_526_');
+INSERT INTO `category` VALUES ('Accessories', '配饰', '_857_', 'http://mpic.secooimg.com/images/2016/03/14/peishi.jpg', '眼镜,腰带,领带,丝巾,围巾,帽子,手套,伞,其他配饰', '_857_65_,_857_63_,_857_64_,_857_70_,_857_67_,_857_71_,_857_72_,_857_73_,_857_430_');
+INSERT INTO `category` VALUES ('Wine&Food', '美酒与美食', '_862_', 'http://mpic.secooimg.com/images/2016/05/23/meishi.jpg', '零食/坚果/饮品,粮油/调味,茶', '_862_926_,_862_927_,_862_1121_');
+INSERT INTO `category` VALUES ('Clothing & Shoes', '鞋服', '_8_', 'http://mpic.secooimg.com/images/2016/03/14/xiefu.jpg', '男装,女装,男鞋,女鞋', '_8_21_,_8_26_,_8_29_,_8_35_');
+INSERT INTO `category` VALUES ('Health Care', '营养保健', '_984_', 'http://mpic.secooimg.com/images/2016/05/23/jiankang.jpg', '营养食品,营养成分,营养补充,营养功效', '_984_1076_,_984_985_,_984_1079_,_984_1098_');
 
 -- ----------------------------
 -- Table structure for floor
@@ -11551,6 +11547,41 @@ INSERT INTO `hot_show_product` VALUES ('content_2104', '[{\"price\":168,\"brandI
 INSERT INTO `hot_show_product` VALUES ('template_13345', '{}', 'topicNew/13345', '美艳今夏', '今年夏天 就要白白美美滴', '//pic12.secooimg.com/comment/17/6/88f86393169145fe9b2bc9051fbace22.jpg');
 INSERT INTO `hot_show_product` VALUES ('template_14113', '{}', 'topicNew/14113', 'STYLUS 鬼怪系列', '美美滴闪闪的', '//pic12.secooimg.com/comment/17/7/55791ef8aac5402bbd3a7aa041bed9c3.jpg');
 INSERT INTO `hot_show_product` VALUES ('template_19160', '[{\"price\":15858,\"brandId\":4954,\"productId\":\"24881973\",\"img\":\"https://pic12.secooimg.com/product/500/500/55/53/758d21a94e0e4e2790da626475e2174f.jpg\",\"name\":\"SWELL\"},{\"price\":1585,\"brandId\":4954,\"productId\":\"24881042\",\"img\":\"https://pic12.secooimg.com/product/500/500/50/99/2c6429f8bf6c44fbb0755b60824f6b8b.jpg\",\"name\":\"SWELL\"},{\"price\":15858,\"brandId\":4954,\"productId\":\"24881938\",\"img\":\"https://pic12.secooimg.com/product/500/500/50/10/2d3316d235db4e67bcf8e4037596b7ab.jpg\",\"name\":\"SWELL\"}]', 'topicNew/19160', 'Swell限量款水杯', '送的人比收到的人更幸福', '//pic12.secooimg.com/comment/17/11/6ef07c6d3fcc4f858d54d6bf42bfb6a0.jpg');
+
+-- ----------------------------
+-- Table structure for index_category
+-- ----------------------------
+DROP TABLE IF EXISTS `index_category`;
+CREATE TABLE `index_category` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `subTitle` varchar(255) DEFAULT NULL,
+  `img` varchar(255) DEFAULT NULL,
+  `pageid` varchar(255) DEFAULT NULL,
+  `floors` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of index_category
+-- ----------------------------
+INSERT INTO `index_category` VALUES ('14615', '腕表', 'Watches', 'category/f15bbf29633e49b688700b3a6d0b94ed.jpg', 'topicNew/14615', '4,6,14');
+INSERT INTO `index_category` VALUES ('14616', '珠宝首饰', 'Jewelry', 'category/6be7e272906c47538c35e5e0d67c996e.jpg', 'topicNew/14616', '4,17,18,19,20');
+INSERT INTO `index_category` VALUES ('14622', '美妆', 'Beauty', 'category/885ab1ee35fe4686bfcbf1ef5af64a03.jpg', 'topicNew/14622', '3,5,7,9,11,21');
+INSERT INTO `index_category` VALUES ('14626', '配饰', 'Accessories', 'category/516a65cba3884658b3817a80b6913576.jpg', 'topicNew/14626', '3,6,8,10,12,14');
+INSERT INTO `index_category` VALUES ('14627', '家居生活', 'Home', 'category/287e086122be4949a77cead02272af34.jpg', 'topicNew/14627', '3,6');
+INSERT INTO `index_category` VALUES ('14630', '母婴', 'Mother&Children', 'category/f7c7410ac9c841ee998e7c56376a4c82.jpg', 'topicNew/14630', '3,5,36');
+INSERT INTO `index_category` VALUES ('14764', '设计师品牌', 'Designer Brand', 'category/e05c6cf388a14c5bb09ea8f50b0ad328.jpg', 'topicNew/14764', '4,8,10,12,14,16');
+INSERT INTO `index_category` VALUES ('15231', '奥莱特卖', 'Sale', 'category/8ec59c6eb88e46afbfd6400a27d48d5b.jpg', 'topicNew/15231', '2');
+INSERT INTO `index_category` VALUES ('15482', '家电数码', '3C', 'category/c70690a5755c4e359d7a4318c665e4f3.jpg', 'topicNew/15482', '7,18,20,22,26,27,28,29');
+INSERT INTO `index_category` VALUES ('15524', '服装', 'Clothing', 'category/dca1969bd854488db8c58edd2ee30672.jpg', 'topicNew/15524', '3,21');
+INSERT INTO `index_category` VALUES ('15757', '豪车', 'Luxury car ', 'category/9ab7dd67751f41c98e0e1f98f0ebb493.jpg', 'topicNew/15757', '15');
+INSERT INTO `index_category` VALUES ('17507', '名物', 'Secoo Ming', 'category/2b128b676c904159b14cf9825cf44854.jpg', 'topicNew/17507', '6,8,10,12,25');
+INSERT INTO `index_category` VALUES ('19007', '运动户外', 'Sports&Outdoor', 'category/0b06893b40bc4139aff60e75c79ec48c.jpg', 'topicNew/19007', '4,6');
+INSERT INTO `index_category` VALUES ('19822', '美酒美食', 'Food & Wine', 'category/29dbf58f23214bd6bebafa90c04188be.jpg', 'topicNew/19822', '4,6,8,20');
+INSERT INTO `index_category` VALUES ('21817', '鞋靴', 'Shoes', 'category/undefined', 'topicNew/21817', '4');
+INSERT INTO `index_category` VALUES ('23022', '包袋', 'Bags', 'category/96b10e7097b34b9887fb038809b501a3.jpg', 'topicNew/23022', '5');
+INSERT INTO `index_category` VALUES ('23167', '营养保健', 'Nutrition', 'category/6e9ced34abb84ca28c50f969fa1b3b16.jpg', 'topicNew/23167', '4,15,17,19,21');
 
 -- ----------------------------
 -- Table structure for swiper
