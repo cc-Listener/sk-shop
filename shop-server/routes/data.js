@@ -213,5 +213,7 @@ router.get('/hot_goods_header', function(req, res, next) {
         }],
     }
     res.send(data);
-})
+});
+
+
 module.exports = router;
