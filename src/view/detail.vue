@@ -1,14 +1,14 @@
 <template>
   <div class="detail">
     <div class="good-list">
-      <div class="good-item" v-for="(item, key) in goodsData" :key="key">
+      <router-link :to="{path: '/goodDetail', query: {id: item.project_id}}" class="good-item" v-for="(item, key) in goodsData" :key="key">
         <img v-lazy="item.img" />
         <p class="title">{{item.name}}</p>
         <div class="price">
           <span>￥{{ item.second_price === '' || item.second_price === null ? item.price : item.second_price}}</span>
           <span v-if="item.second_price != '' && item.second_price != null" class="second_price">￥{{item.price}}</span>
         </div>
-      </div>
+      </router-link>
     </div>
 
     <div class="warm-infor">{{ noData ? '再下面就没有啦~~' : '数据加载中...' }}</div>

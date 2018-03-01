@@ -3,6 +3,7 @@ var router = express.Router();
 var connection = require('../sql.js');
 var async = require('async');
 var cors = require('cors');
+var request = require('request');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -214,6 +215,50 @@ router.get('/hot_goods_header', function(req, res, next) {
     }
     res.send(data);
 });
+// 商品详情
+router.get('/good_detail',function(req, res, next) {
+    var { id } = req.query;
+    async.waterfall([
+        function(cb){
+            request(`http://las.secoo.com/api/product/detail_new?upk=&productId=${id}&size=2&c_platform_type=0&_=1519723794125`,function(err, response, body) {
+                var data = JSON.parse(body);
+                var { brandStory, kuChequeInfo, productInfo, imgList, attrList, pickupInfo, categoryId, brandId } = data;
+                // 推荐商品
+                request(`https://lr.secooimg.com/recommend?&productId=${id}&c_platform_type=0&type=similar&count=12&platformType=2&categoryId=${categoryId}&brandId=${brandId}&_=1519869583306`,function(err, ress, body) {
+                    var {productList} = JSON.parse(body);
+                    var detail = {
+                        productInfo, //商品详情
+                        brandStory, //背景故事
+                        productList, //推荐商品
+                        categoryId,
+                        brandId
+
+                    }
+                    cb(null, detail)
+                } );
+            } );
+        },
+        function(detail,cb) {
+            // 获取评论列表
+            var { categoryId, brandId } = detail;
+            request(`http://las.secoo.com/api/comment/show_product_comment?upk=&productId=${id}&size=2&c_platform_type=0&type=0&filter=0&page=1&pageSize=8&productBrandId=${brandId}&productCategoryId=${categoryId}&_=1519869583304`,function(err, response, body) {
+                var data = JSON.parse(body);
+                detail.commentData = data;
+                cb(null, detail);
+            } )
+        },
+        function(detail,cb) {
+            // 获取颜色，码数
+            request(`http://las.secoo.com/api/product/spec_new?upk=&productId=${id}&size=2&c_platform_type=0&_=1519876301591`, function(err, response, body) {
+                var data = JSON.parse(body);
+                detail.productSpec = data.productSpec;
+                cb(null, detail);
+            } )
+        }
+    ],function(err, result) {
+        res.send(result);
+    } )
+} )
 
 
 module.exports = router;

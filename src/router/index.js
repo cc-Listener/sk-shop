@@ -5,6 +5,7 @@ import Login from '@/view/Login'
 import User from '@/view/User'
 import Register from '@/view/Register'
 import Detail from '@/view/Detail'
+import GoodDetail from '@/view/GoodDetail'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/detail',
       name: 'Detail',
       component: Detail
-    }
+    },
+    {
+      path: '/goodDetail',
+      name: 'GoodDetail',
+      component: GoodDetail
+    },
   ]
 })
