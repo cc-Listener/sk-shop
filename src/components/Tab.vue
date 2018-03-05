@@ -20,7 +20,7 @@
         },{
           title: '尖货',
           img: baseImgUrl + '/icon/2.png',
-          url:'/goods'
+          url:'/hotgoods'
         },{
           title: '分类',
           img: baseImgUrl + 'icon/3.png',

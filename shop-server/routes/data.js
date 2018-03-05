@@ -215,6 +215,12 @@ router.get('/hot_goods_header', function(req, res, next) {
     }
     res.send(data);
 });
+router.get('/hot_goods_comment',function(req, res, next) {
+    var {lineNumber, tagId } = req.query;
+    request(`http://las.secoo.com/api/show/hot_show_list?lineNumber=${lineNumber}&tagId=${tagId}&size=20&c_app_ver=1.0&c_device_id=8664e726-1448-4c49-a4c2-4350a13aa642`,function (err, response, body) {
+        res.send(JSON.parse(body));
+    })
+} )
 // 商品详情
 router.get('/good_detail',function(req, res, next) {
     var { id } = req.query;

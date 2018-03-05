@@ -6,6 +6,7 @@ import User from '@/view/User'
 import Register from '@/view/Register'
 import Detail from '@/view/Detail'
 import GoodDetail from '@/view/GoodDetail'
+import Hotgoods from '@/view/Hotgoods'
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
       path: '/goodDetail',
       name: 'GoodDetail',
       component: GoodDetail
+    },
+    {
+      path: '/hotgoods',
+      name: 'Hotgoods',
+      component: Hotgoods
     },
   ]
 })

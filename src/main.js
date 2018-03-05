@@ -7,7 +7,11 @@ import 'lib-flexible'
 import axios from 'axios'
 import VueLazyLoad from 'vue-lazyload'
 import { HOST } from '../config/config.js';
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.css'
+import './assets/style/style.css';
 Vue.use(VueLazyLoad)
+Vue.use(VueAwesomeSwiper)
 
 axios.defaults.baseURL = HOST
 
