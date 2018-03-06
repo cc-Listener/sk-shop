@@ -7,21 +7,59 @@
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
 
-    <div class="tags">
-      <div v-for="(item, key) in headerData.tags" :key="key" class="tags-item" :class="selectIndex === key ? 'select' : ''" @click="tagClick(key, item.id)">
-        <span>{{item.title}}</span>
-        <img :src="item.img" />
+    <div class="tag-container">
+      <div class="tags">
+        <div v-for="(item, key) in headerData.tags" :key="key" class="tags-item" :class="selectIndex === key ? 'select' : ''" @click="tagClick(key, item.id)">
+          <span>{{item.title}}</span>
+          <div v-if="selectIndex != key" class="mask"></div>
+          <img :src="item.img" />
+        </div>
       </div>
     </div>
+
+    <div class="detail-container">
+      <div class="detail-item" v-for="(item, key) in commentData" :key="key">
+        <div class="comment-view" v-if="!item.products">
+          <div class="user-view">
+            <div class="user-info">
+              <img :src="item.showUserImg" />
+              <div>
+                <p>{{item.showUserName}}</p>
+                <p>{{item.showTime}}</p>
+              </div>
+            </div>
+            <div class="content">
+              <p>{{item.content}}</p>
+              <router-link :to="{path: '/commentDetail', query: {id: item.id}}">查看详情</router-link>
+            </div>
+          </div>
+          <div class="img-show" :class="item.showImgs.length > 2 ? 'full-img-show': ''">
+            <img :src="innerItem" v-for="(innerItem, InnerKey) in item.showImgs" :key="InnerKey" />
+          </div>
+          <div class="btn-view item-border-top">
+            <div class="btn-container item-border-right">
+              <div class="icon-zan fontTopPro "></div>{{item.praiseCount}}
+            </div>
+            <router-link :to="{path: '/goodDetail', query:{id: item.productId}}" class="btn-container">
+              去购买<div class="icon-qumai fontTopPro "></div>
+            </router-link>
+          </div>
+        </div>
+        <div class="product-view" v-else></div>
+      </div>
+    </div>
+    <Loading />
   </div>
 </template>
 <script>
   import { swiper, swiperSlide } from 'vue-awesome-swiper'
+  import Loading from '../components/Loading.vue'
   export default {
     name: 'Hotgoods',
     components: {
       swiper,
       swiperSlide,
+      Loading
     },
     data() {
       return{
@@ -45,7 +83,10 @@
     },
     methods:{
       tagClick(index, id) {
+        this.commentData = [];
         this.selectIndex = index;
+        this.tagsId = id;
+        this.getCommentData();
       },
       getCommentData() {
         this.$http.get(`data/hot_goods_comment?lineNumber=${this.lineNumber}&tagId=${this.tagId}`)
@@ -53,10 +94,16 @@
             this.lineNumber = res.data.lineNumber;
             this.commentData = this.lineNumber === 1 ? res.data.list : this.commentData.concat(res.data.list);
           })
+      },
+      onScroll() {
+        if( (window.innerHeight + document.documentElement.scrollTop) == document.body.scrollHeight ) {
+          this.getCommentData();
+        }
       }
     },
     created() {
       document.title = '尖货';
+      window.addEventListener('scroll', this.onScroll);
       this.$http.get(`data/hot_goods_header`)
         .then( res => {
           this.headerData = res.data;
@@ -69,55 +116,173 @@
 <style lang="scss">
   ::-webkit-scrollbar{width:0px}
   .hotgoods{
-    .tags{
+    .tag-container{
       width: 100%;
-      white-space: nowrap;
-      margin-top: 60px;
-      overflow-x: auto;
+      height: 210px;
+      overflow: auto;
 
-      .tags-item:first-child{
-        margin-left: 30px;
-      }
-      .select::before {
-        content: "";
-        display: block;
-        width: 100px;
-        height: 100px;
-        position: absolute;
-        left: 0;
-        top: 0;
-        border: 2px solid #fff; /*no*/
+      .tags{
+        width: 100%;
+        white-space: nowrap;
+        margin-top: 60px;
 
-      }
-      .tags-item{
-        position: relative;
-        display: inline-block;
-        width: 100px;
-        height: 112px;
-        border-radius: 50%;
-        text-align: center;
-        font-size: 26px;
-        color: #fff;
-        line-height: 100px;
-        margin-right: 40px;
-
-        img{
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 100px;
-          height: 100px;
-          border-radius: 100%;
+        .tags-item:first-child{
+          margin-left: 30px;
         }
-        span{
+        .mask{
           position: absolute;
           top: 0;
           left: 0;
+          width: 100%;
+          height: 100px;
+          background-color: rgba(0,0,0,0.3);
+          border-radius: 50%;
+          z-index: 1;
+        }
+        .select::before,.select::after {
+          content: "";
+          display: block;
           width: 100px;
           height: 100px;
-          white-space: nowrap;
-          z-index: 11;
+          position: absolute;
+          left: 0;
+          top: 0;
+          border-radius: 100%;
+        }
+        .select::before{
+          border: 2px solid #fff; /*no*/
+          z-index: 12;
+          box-sizing: border-box;
+        }
+        .select::after{
+          top: -6px;
+          left: -6px;
+          border: 3px solid #ceb88e; /*no*/
+        }
+        .tags-item{
+          position: relative;
+          display: inline-block;
+          width: 100px;
+          height: 112px;
+          border-radius: 50%;
+          text-align: center;
+          font-size: 26px;
+          color: #fff;
+          line-height: 100px;
+          margin-right: 40px;
+
+          img{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100px;
+            height: 100px;
+            border-radius: 100%;
+          }
+          span{
+            position: absolute;
+            text-align: center;
+            line-height: 100px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            z-index: 11;
+          }
+        }
+      }
+    }
+    .detail-container{
+      .detail-item{
+        margin-bottom: 30px;
+      }
+      .comment-view{
+        .user-view{
+          padding: 0 30px;
+        }
+        .user-info{
+          display: flex;
+          align-items: center;
+          img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-right: 30px;
+          }
+          p:first-child{
+            margin-bottom: 10px;
+          }
+        }
+        .content{
+          font-size: 28px;
+          line-height: 42px;
+          margin: 30px 0;
+          p{
+            overflow:hidden;
+            text-overflow:ellipsis;
+            display:-webkit-box;
+            -webkit-box-orient:vertical;
+            -webkit-line-clamp:2;
+          }
+          a{
+            color: #BEA474;
+          }
+        }
+        .img-show{
+          display: flex;
+          justify-content: space-between;
+          padding: 0 30px;
+          img{
+            width: 340px;
+            height: 340px;
+          }
+        }
+        .full-img-show{
+          width: 100%;
+          overflow: auto;
+          padding: 0 !important;
+          justify-content: flex-start;
+          img{
+            margin-right: 10px;
+          }
+          img:first-child{
+            padding-left: 30px;
+          }
+          img:last-child{
+            padding-right: 20px;
+          }
+        }
+        .btn-view::after{
+          content: "";
+          position: absolute;
+          left: 0;
+          width: 100%;
+          height: 1px;
+          color: #EBEBEB;
+          transform: scaleY(0.5);
+          overflow: hidden;
+          bottom: -1px;
+          transform-origin: 0 0;
+          border-bottom: 1px solid #EBEBEB; /* no */
+        }
+        .btn-view{
+          display: flex;
+          margin-top: 30px;
+
+          .btn-container{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50%;
+            height: 80px;
+
+            .icon-zan{
+              margin-right: 10px;
+            }
+            .icon-qumai{
+              margin-left: 10px;
+            }
+          }
         }
       }
     }

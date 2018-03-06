@@ -10,6 +10,7 @@ import { HOST } from '../config/config.js';
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 import './assets/style/style.css';
+import './assets/style/icon-font.css';
 Vue.use(VueLazyLoad)
 Vue.use(VueAwesomeSwiper)
 

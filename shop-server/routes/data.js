@@ -164,57 +164,49 @@ router.post('/login', function(req, res, next) {
 router.get('/hot_goods_header', function(req, res, next) {
     var data = {
         tags: [{
-            introduction: "",
             img: "//pic12.secooimg.com/content/17/3/59c8671568454db98e26ae498cba9f96.jpg",
             title: "最新",
             id: 1
         }, {
-            introduction: "",
             img: "//pic12.secooimg.com/content/17/4/ff053853b85946f18e97ca38711b69a0.jpg",
             title: "时髦",
             id: 5
         }, {
-            introduction: "",
             img: "//pic12.secooimg.com/content/17/4/da7d1c418e1349a1bcfb3e2136ee457f.jpg",
             title: "型男",
             id: 8
         }, {
-            introduction: "",
             img: "//pic12.secooimg.com/content/17/4/181d04c31b8441ff952dd4c56c7897ed.jpg",
             title: "女士",
             id: 15
         }, {
-            introduction: "",
             img: "//pic12.secooimg.com/content/17/4/01fce687bc8d4499899dade5414c0123.jpg",
             title: "生活",
             id: 6
         }, {
-            introduction: "",
             img: "//pic12.secooimg.com/content/17/4/5df48badd68b4790a307319775c2a6e6.jpg",
             title: "美妆",
             id: 7
         }, {
-            introduction: "",
             img: "//pic12.secooimg.com/content/17/4/cf38233f22ed4dabaf05f1bf8707625e.jpg",
             title: "健康",
             id: 9
         }],
         banners: [{
-            urlType: 0,
             img: "http://pic12.secooimg.com/content/17/11/b914b79fa0594972b5a9091d9039c019.jpg",
             url: "wb_1114_dkfur"
         }, {
-            urlType: 0,
             img: "http://pic12.secooimg.com/content/17/11/ecd1b15a8d5c4fb890efcc95a817f513.jpg",
             url: "shzt_1115list"
         }, {
-            urlType: 0,
             img: "http://pic12.secooimg.com/content/17/11/17036f33d0724eef862bfbea8dfca6e1.jpg",
             url: "shzt_1028list"
         }],
     }
     res.send(data);
 });
+
+// 晒货列表
 router.get('/hot_goods_comment',function(req, res, next) {
     var {lineNumber, tagId } = req.query;
     request(`http://las.secoo.com/api/show/hot_show_list?lineNumber=${lineNumber}&tagId=${tagId}&size=20&c_app_ver=1.0&c_device_id=8664e726-1448-4c49-a4c2-4350a13aa642`,function (err, response, body) {
@@ -264,7 +256,21 @@ router.get('/good_detail',function(req, res, next) {
     ],function(err, result) {
         res.send(result);
     } )
-} )
+} );
+
+// 晒货评论详情
+router.get('/comment_detail',function(req, res, next) {
+    var {id} = req.query;
+    request(`https://las.secoo.com/api/show/comment_show?commentShowDetailId=${id}&c_app_ver=1.0&c_device_id=8664e726-1448-4c49-a4c2-4350a13aa642&_=1520323819839`,function (err, response, body) {
+
+        var data = JSON.parse(body);
+        if(err) {
+            res.send(err)
+        } else {
+            res.send(data);
+        }
+    })
+} );
 
 
 module.exports = router;
