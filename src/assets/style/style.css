@@ -37,11 +37,6 @@
     transform-origin: 0 0;
     border-top: 1px solid #EBEBEB; /* no */
 }
-
-.item-border-top:first-child:before {
-    border-top: none;
-}
-
 .item-border-bottom:before {
     content: "";
     position: absolute;
@@ -55,11 +50,6 @@
     transform-origin: 0 0;
     border-bottom: 1px solid #EBEBEB; /* no */
 }
-
-.item-border-bottom:last-child:before {
-    border-bottom: none;
-}
-
 .item-border-right:after {
     content: "";
     position: absolute;

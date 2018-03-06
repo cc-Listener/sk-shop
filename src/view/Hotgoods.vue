@@ -33,7 +33,7 @@
               <router-link :to="{path: '/commentDetail', query: {id: item.id}}">查看详情</router-link>
             </div>
           </div>
-          <div class="img-show" :class="item.showImgs.length > 2 ? 'full-img-show': ''">
+          <div :class="item.showImgs.length > 2 ? 'full-img-show': 'img-show'">
             <img :src="innerItem" v-for="(innerItem, InnerKey) in item.showImgs" :key="InnerKey" />
           </div>
           <div class="btn-view item-border-top">
@@ -45,7 +45,28 @@
             </router-link>
           </div>
         </div>
-        <div class="product-view" v-else></div>
+        <div class="product-view item-border-bottom" v-else>
+          <div class="product-top">
+            <div class="mask"></div>
+            <img :src="item.titleImg" />
+            <div class="desc">
+              <p class="title">{{item.title}}</p>
+              <p class="subTitle">{{item.subTitle}}</p>
+              <router-link class="to-topic" to="/">进入专题</router-link>
+            </div>
+            <div class="see-num">
+              <div class="fontTopPro icon-kan"></div>
+              <span>{{item.showNumber}}</span>
+            </div>
+          </div>
+          <div class="product-imgs">
+            <div v-for="(innerItem, innerKey) in item.products" :key="innerKey">
+              <img :src="innerItem.img" />
+              <p>{{innerItem.name}}</p>
+              <p>￥{{innerItem.price}}</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <Loading />
@@ -238,11 +259,12 @@
           }
         }
         .full-img-show{
+          display: flex;
           width: 100%;
-          overflow: auto;
-          padding: 0 !important;
-          justify-content: flex-start;
+          overflow-x: auto;
           img{
+            width: 340px;
+            height: 340px;
             margin-right: 10px;
           }
           img:first-child{
@@ -282,6 +304,89 @@
             .icon-qumai{
               margin-left: 10px;
             }
+          }
+        }
+      }
+      .product-view{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+
+        .product-top{
+          width: 690px;
+          height: 380px;
+          position: relative;
+          img {
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
+          }
+          .desc{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            z-index: 11;
+
+            .title{
+              font-size: 42px;
+            }
+            .subTitle{
+              font-size: 28px;
+              text-align: center;
+              margin-top: 14px;
+              letter-spacing: 1px;
+            }
+            .to-topic{
+              display: inline-block;
+              background-color: #fff;
+              color: #000;
+              margin-top: 30px;
+              width: 120px;
+              height: 40px;
+              text-align: center;
+              line-height: 40px;
+            }
+          }
+          .see-num{
+            display: flex;
+            position: absolute;
+            right: 30px;
+            bottom: 20px;
+            z-index: 11;
+            color: #fff;
+
+            .icon-kan{
+              margin-right: 10px;
+            }
+          }
+          .mask{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 1;
+            border-radius: 5px;
+          }
+        }
+      }
+      .product-imgs{
+        display: flex;
+        width: 690px;
+        font-size: 28px;
+        color: #1A191E;
+        padding-bottom: 30px;
+        margin-top: 20px;
+        div{
+          width: 33.33%;
+          text-align: center;
+          img{
+            width: 100%;
           }
         }
       }
