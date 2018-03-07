@@ -1,7 +1,8 @@
 <template>
   <div class="comment-detail">
+    <Header title="晒货详情" />
     <div class="user-info">
-      <img :src="commentData.headImg" />
+      <img v-lazy="commentData.headImg" />
       <div>
         <p>{{commentData.nickName}}</p>
         <p>{{commentData.createDate}}</p>
@@ -12,8 +13,12 @@
   </div>
 </template>
 <script>
+  import Header from '../components/Header.vue';
   export default {
     name: 'CommentDetail',
+    components: {
+      Header
+    },
     data() {
       return{
         commentData: []

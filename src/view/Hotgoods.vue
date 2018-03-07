@@ -12,7 +12,7 @@
         <div v-for="(item, key) in headerData.tags" :key="key" class="tags-item" :class="selectIndex === key ? 'select' : ''" @click="tagClick(key, item.id)">
           <span>{{item.title}}</span>
           <div v-if="selectIndex != key" class="mask"></div>
-          <img :src="item.img" />
+          <img v-lazy="item.img" />
         </div>
       </div>
     </div>
@@ -22,7 +22,7 @@
         <div class="comment-view" v-if="!item.products">
           <div class="user-view">
             <div class="user-info">
-              <img :src="item.showUserImg" />
+              <img v-lazy="item.showUserImg" />
               <div>
                 <p>{{item.showUserName}}</p>
                 <p>{{item.showTime}}</p>
@@ -34,7 +34,7 @@
             </div>
           </div>
           <div :class="item.showImgs.length > 2 ? 'full-img-show': 'img-show'">
-            <img :src="innerItem" v-for="(innerItem, InnerKey) in item.showImgs" :key="InnerKey" />
+            <img v-lazy="innerItem" v-for="(innerItem, InnerKey) in item.showImgs" :key="InnerKey" />
           </div>
           <div class="btn-view item-border-top">
             <div class="btn-container item-border-right">
@@ -48,7 +48,7 @@
         <div class="product-view item-border-bottom" v-else>
           <div class="product-top">
             <div class="mask"></div>
-            <img :src="item.titleImg" />
+            <img v-lazy="item.titleImg" />
             <div class="desc">
               <p class="title">{{item.title}}</p>
               <p class="subTitle">{{item.subTitle}}</p>
@@ -61,7 +61,7 @@
           </div>
           <div class="product-imgs">
             <div v-for="(innerItem, innerKey) in item.products" :key="innerKey">
-              <img :src="innerItem.img" />
+              <img v-lazy="innerItem.img" />
               <p>{{innerItem.name}}</p>
               <p>￥{{innerItem.price}}</p>
             </div>
@@ -106,7 +106,7 @@
       tagClick(index, id) {
         this.commentData = [];
         this.selectIndex = index;
-        this.tagsId = id;
+        this.tagId = id;
         this.getCommentData();
       },
       getCommentData() {
@@ -259,9 +259,9 @@
           }
         }
         .full-img-show{
-          display: flex;
           width: 100%;
           overflow-x: auto;
+          white-space:nowrap;
           img{
             width: 340px;
             height: 340px;
@@ -335,12 +335,14 @@
 
             .title{
               font-size: 42px;
+              white-space: nowrap;
             }
             .subTitle{
               font-size: 28px;
               text-align: center;
               margin-top: 14px;
               letter-spacing: 1px;
+              white-space: nowrap;
             }
             .to-topic{
               display: inline-block;

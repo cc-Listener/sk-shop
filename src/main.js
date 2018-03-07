@@ -8,9 +8,13 @@ import axios from 'axios'
 import VueLazyLoad from 'vue-lazyload'
 import { HOST } from '../config/config.js';
 import VueAwesomeSwiper from 'vue-awesome-swiper'
+
 import 'swiper/dist/css/swiper.css'
 import './assets/style/style.css';
 import './assets/style/icon-font.css';
+import './assets/style/animate.css';
+import '../normalize.css';
+
 Vue.use(VueLazyLoad)
 Vue.use(VueAwesomeSwiper)
 

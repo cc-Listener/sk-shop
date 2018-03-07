@@ -1,6 +1,6 @@
 <template>
-  <div id="header">
-    <span class="icon" @click="goBack" />
+  <div id="header" class="item-border-bottom">
+    <span class="go-left" @click="goBack" />
     <span>{{title}}</span>
   </div>
 </template>
@@ -20,21 +20,21 @@
     props: ['title']
   }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
   #header{
     position: relative;
     background-color: #fff;
     width: 100%;
-    height: 90px;
-    box-sizing: border-box;
-    border-bottom: 1px solid #ddd;
-    line-height: 90px;
+    height: 87px;
+    line-height: 87px;
     text-align: center;
-    font-size: 36px;
+    font-size: 34px;
 
-    .icon{
+    .go-left{
+      width: 87px;
+      height: 87px;
       position: absolute;
-      left: 20px;
+      left: 0px;
       top: 50%;
       transform: translateY(-50%);
     }

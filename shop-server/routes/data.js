@@ -220,7 +220,7 @@ router.get('/good_detail',function(req, res, next) {
         function(cb){
             request(`http://las.secoo.com/api/product/detail_new?upk=&productId=${id}&size=2&c_platform_type=0&_=1519723794125`,function(err, response, body) {
                 var data = JSON.parse(body);
-                var { brandStory, kuChequeInfo, productInfo, imgList, attrList, pickupInfo, categoryId, brandId } = data;
+                var { brandStory, kuChequeInfo, productInfo, imgList, attrList, pickupInfo, categoryId, brandId, brandName, serviceList } = data;
                 // 推荐商品
                 request(`https://lr.secooimg.com/recommend?&productId=${id}&c_platform_type=0&type=similar&count=12&platformType=2&categoryId=${categoryId}&brandId=${brandId}&_=1519869583306`,function(err, ress, body) {
                     var {productList} = JSON.parse(body);
@@ -228,6 +228,8 @@ router.get('/good_detail',function(req, res, next) {
                         productInfo, //商品详情
                         brandStory, //背景故事
                         productList, //推荐商品
+                        serviceList,
+                        brandName,
                         categoryId,
                         brandId
 
