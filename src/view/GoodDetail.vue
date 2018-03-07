@@ -6,17 +6,20 @@
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
+    <!-- 商品详情 -->
     <div class="product-info">
       <p class="price">{{productInfo.priceInfo.nowPrice}}</p>
       <p class="title"><span>{{brandName}}</span>{{productInfo.title}}</p>
       <p>{{productInfo.areaName}} {{productInfo.deliverInfo}}</p>
     </div>
+    <!-- 商家服务 -->
     <div class="service-view">
       <div class="service-item" v-for="(item, key) in serviceList" :key="key">
         <img v-lazy="item.icon"/>
         <p>{{item.name}}</p>
       </div>
     </div>
+    <!-- 商品信息 -->
     <div class="product-detail">
       <h2>商品信息</h2>
       <table>
@@ -26,6 +29,7 @@
         </tr>
       </table>
     </div>
+    <!-- 用户评价 -->
     <div class="product-comment item-border-top">
       <h2>用户评价 <span v-if="commentData.retCode != 1">( {{commentData.totalCurrCommentNum}} )</span></h2>
       <div class="comment-acount">
@@ -43,9 +47,21 @@
       </div>
     </div>
     <div class="border-line item-border-top"></div>
+    <!-- 商品详情 -->
     <div class="goods-detail">
       <h2>商品详情</h2>
       <img v-lazy="item.info" v-for="(item, key) in productInfo.detail" :key="key" />
+    </div>
+    <!-- 精品推荐 -->
+    <div class="product-groom">
+      <p class="title">- 精品推荐 -</p>
+      <router-link :to="{path: '/goodDetail', query: {id: item.id, status: 'groom'}}" class="good-item item-border-bottom" v-for="(item, key) in productList" :key="key">
+        <img v-lazy="item.picUrl" />
+        <div class="desc">
+          <p class="name">{{item.name}}</p>
+          <p class="price">￥{{item.secooPrice}}</p>
+        </div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -86,21 +102,29 @@
       checkTime: function(i) {
         return (i < 10? '0': '') + i;
       },
+      requestData() {
+        var {id} = this.$route.query;
+        this.$http.get(`data/good_detail?id=${id}`)
+          .then( res => {
+            var data = res.data;
+            this.commentData = data.commentData;
+            this.productInfo = data.productInfo;
+            this.productList = data.productList;
+            this.brandName = data.brandName;
+            this.serviceList = data.serviceList;
+
+            document.title = data.brandName;
+            this.haveData = true;
+          } )
+      }
     },
     created() {
-      var {id} = this.$route.query;
-      this.$http.get(`data/good_detail?id=${id}`)
-        .then( res => {
-          var data = res.data;
-          this.commentData = data.commentData;
-          this.productInfo = data.productInfo;
-          this.productList = data.productList;
-          this.brandName = data.brandName;
-          this.serviceList = data.serviceList;
-
-          document.title = data.brandName;
-          this.haveData = true;
-        } )
+      this.requestData();
+    },
+    watch: {
+      '$route' (to, from) {
+        console.log(to, from);
+      }
     }
   }
 </script>
@@ -195,7 +219,7 @@
           margin-right: 30px;
         }
         .comment-item{
-          padding-top: 60px;
+          padding: 60px 0;
           .icon-star{
             margin-right: 7px;
           }
@@ -217,6 +241,55 @@
         width: 100%;
         height: auto;
         margin-bottom: 20px;
+      }
+    }
+    .product-groom{
+      .title{
+        background-color: #f5f5f5;
+        height: 132px;
+        line-height: 130px;
+        text-align: center;
+        color: #1A191E;
+        font-size: 36px;
+      }
+      .good-item:after{
+        content: "";
+        position: absolute;
+        top: 0;
+        height: 100%;
+        width: 1px;
+        color: #EBEBEB;
+        transform: scaleX(0.5);
+        overflow: hidden;
+        right: -1px;
+        transform-origin: 0 0;
+        border-right: 1px solid #EBEBEB; /* no */
+      }
+      .good-item{
+        display: inline-block;
+        width: 50%;
+
+        img{
+          width: 100%;
+          height: 375px;
+        }
+        .desc{
+          margin: 30px;
+          .name{
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 26px;
+          }
+          .price{
+            color: #1A191E;
+            font-size: 34px;
+            margin-top: 30px;
+            font-weight: bold;
+          }
+        }
       }
     }
   }

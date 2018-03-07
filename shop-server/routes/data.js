@@ -224,6 +224,10 @@ router.get('/good_detail',function(req, res, next) {
                 // 推荐商品
                 request(`https://lr.secooimg.com/recommend?&productId=${id}&c_platform_type=0&type=similar&count=12&platformType=2&categoryId=${categoryId}&brandId=${brandId}&_=1519869583306`,function(err, ress, body) {
                     var {productList} = JSON.parse(body);
+                    productList = productList.map( item => {
+                        item.picUrl = '//pic12.secooimg.com/product/300/300/' + item.picUrl;
+                        return item;
+                    } )
                     var detail = {
                         productInfo, //商品详情
                         brandStory, //背景故事
