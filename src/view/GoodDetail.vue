@@ -1,20 +1,60 @@
 <template>
   <div class="good-detail" v-if="haveData">
     <swiper :options="swiperOption" ref="mySwiper" class="banner">
-      <swiper-slide v-for="(item, key) in productInfo.imgList">
+      <swiper-slide v-for="(item, key) in detail.productInfo.imgList">
         <img v-lazy="item" />
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
     <!-- 商品详情 -->
     <div class="product-info">
-      <p class="price">{{productInfo.priceInfo.nowPrice}}</p>
-      <p class="title"><span>{{brandName}}</span>{{productInfo.title}}</p>
-      <p>{{productInfo.areaName}} {{productInfo.deliverInfo}}</p>
+      <p class="price">{{detail.productInfo.priceInfo.nowPrice}}</p>
+      <p class="title"><span>{{detail.brandName}}</span>{{detail.productInfo.title}}</p>
+      <p>{{detail.productInfo.areaName}} {{detail.productInfo.deliverInfo}}</p>
+    </div>
+    <!-- 商品服务 -->
+    <div class="product-service item-border-top">
+      <div class="service-list item-border-bottom">
+        <p>{{detail.kuChequeInfo.title}}</p>
+        <div>
+          <span>{{detail.kuChequeInfo.subTitle}}</span>
+          <i class="icon icon-right"></i>
+        </div>
+      </div>
+      <div class="service-list item-border-bottom">
+        <p>{{detail.pickupInfo.title}}</p>
+        <div>
+          <span>{{detail.pickupInfo.subTitle}}</span>
+          <i class="icon icon-right"></i>
+        </div>
+      </div>
+      <div class="service-list item-border-bottom">
+        <p>{{detail.wecharManage.title}}</p>
+        <div>
+          <span>{{detail.wecharManage.subTitle}}</span>
+          <i class="icon icon-right"></i>
+        </div>
+      </div>
+    </div>
+    <!-- 规格信息 -->
+    <div class="sepc-view">
+      <div class="wrap-view">
+        <h3>{{specData.productSpec[0].title}}</h3>
+        <div class="color-list">
+          <div v-for="(item, key) in specData.productSpec[0].values" :key="key" class="color-item">{{item.title}}</div>
+        </div>
+      </div>
+      <div class="wrap-view">
+        <h3>{{specData.productSpec[1].title}}</h3>
+        <div class="color-list">
+          <div v-for="(item, key) in specData.productSpec[1].values" :key="key" class="color-item">{{item.title}}</div>
+          <div class="size-show">尺码信息</div>
+        </div>
+      </div>
     </div>
     <!-- 商家服务 -->
     <div class="service-view">
-      <div class="service-item" v-for="(item, key) in serviceList" :key="key">
+      <div class="service-item" v-for="(item, key) in detail.serviceList" :key="key">
         <img v-lazy="item.icon"/>
         <p>{{item.name}}</p>
       </div>
@@ -23,7 +63,7 @@
     <div class="product-detail">
       <h2>商品信息</h2>
       <table>
-        <tr v-for="(item, key) in productInfo.attrList">
+        <tr v-for="(item, key) in detail.productInfo.attrList">
           <td>{{item.name}}</td>
           <td>{{item.value}}</td>
         </tr>
@@ -34,12 +74,12 @@
       <h2>用户评价 <span v-if="commentData.retCode != 1">( {{commentData.totalCurrCommentNum}} )</span></h2>
       <div class="comment-acount">
         <span>综合评分 {{commentData.productGrade ? commentData.productGrade : '5.0'}}</span>
-        <i class="icon-right"></i>
+        <i class="icon-right icon"></i>
       </div>
       <div class="comment-list" v-if="commentData.commentList">
         <div class="comment-item item-border-top" v-for="(item, key) in commentData.commentList">
           <span>{{item.userName}}</span>
-          <span class="icon-star" v-for="innerItem in parseInt(item.source)" :key="innerItem"></span>
+          <span class="icon-star icon" v-for="innerItem in parseInt(item.source)" :key="innerItem"></span>
           <p class="content">{{item.content}}</p>
           <span class="date">{{checkDate(item.createDate)}}</span>
           <span>{{item.productSpec}}</span>
@@ -50,7 +90,7 @@
     <!-- 商品详情 -->
     <div class="goods-detail">
       <h2>商品详情</h2>
-      <img v-lazy="item.info" v-for="(item, key) in productInfo.detail" :key="key" />
+      <img v-lazy="item.info" v-for="(item, key) in detail.productInfo.detail" :key="key" />
     </div>
     <!-- 精品推荐 -->
     <div class="product-groom">
@@ -62,6 +102,23 @@
           <p class="price">￥{{item.secooPrice}}</p>
         </div>
       </router-link>
+    </div>
+    <!-- 底部固定 -->
+    <div class="bottom-btn">
+      <div class="btn-left">
+        <div class="item-border-right">
+          <i class="icon icon-service"></i>
+          <p>客服</p>
+        </div>
+        <div>
+          <i class="icon icon-bag"></i>
+          <p>购物袋</p>
+        </div>
+      </div>
+      <div class="submit-btn">
+        <div>加入购物车</div>
+        <div>立即购买</div>
+      </div>
     </div>
   </div>
 </template>
@@ -75,10 +132,10 @@
     },
     data(){
       return {
-        commentData: [],
         productInfo: [],
+        specData: [],
+        commentData: [],
         productList: [],
-        serviceList: [],
         brandName: '',
         haveData: false,
         swiperOption: {
@@ -106,15 +163,30 @@
         var {id} = this.$route.query;
         this.$http.get(`data/good_detail?id=${id}`)
           .then( res => {
-            var data = res.data;
-            this.commentData = data.commentData;
-            this.productInfo = data.productInfo;
-            this.productList = data.productList;
-            this.brandName = data.brandName;
-            this.serviceList = data.serviceList;
-
-            document.title = data.brandName;
+            var { categoryId, brandId } = res.data;
+            this.detail = res.data;
+            document.title = res.data.brandName;
             this.haveData = true;
+            // 获取推荐商品
+            this.$http.get(`data/groom?id=${id}&categoryId=${categoryId}&brandId=${brandId}`)
+              .then( res => {
+                this.productList = res.data;
+              } );
+            // 获取商品评论
+            this.$http.get(`data/good_comment?id=${id}`)
+              .then( res => {
+                this.commentData = res.data;
+              } );
+            // 获取商品规格
+            this.$http.get(`data/good_spec?id=${id}`)
+              .then( res => {
+                this.specData = res.data;
+              } );
+            // 获取更多规格
+            // this.$http.get(`data/good_moreSize?id=${id}`)
+            //   .then( res => {
+            //     this.moreSizeData = res.data;
+            //   } )
           } )
       }
     },
@@ -156,7 +228,7 @@
       }
     }
     .product-info{
-      margin: 30px 50px;
+      margin: 44px 50px;
       .price{
         color: rgb(233, 59, 57);
         font-size: 48px;
@@ -167,6 +239,23 @@
         margin: 30px 0;
         span{
           color: #BEA474;
+        }
+      }
+    }
+    .product-service{
+      .service-list{
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 36px 50px;
+        div{
+          display: flex;
+          align-items: center;
+          i{
+            margin-left: 20px;
+          }
         }
       }
     }
@@ -184,6 +273,34 @@
         width: 54px;
         height: auto;
         margin-bottom: 20px;
+      }
+    }
+    .sepc-view{
+      margin: 60px 10px 60px 50px;
+      h3{
+        margin: 0;
+        white-space: nowrap;
+        padding-right: 80px;
+        padding-top: 10px;
+      }
+      .wrap-view{
+        display: flex;
+        .color-list{
+          .color-item{
+            display: inline-block;
+            font-size: 28px;
+            margin: 0 40px 30px 0;
+            padding: 10px 18px;
+            border: 1px solid #ebebeb; /* no */
+            border-radius: 3px; /* no */
+          }
+        }
+        .size-show{
+          display: inline-block;
+          color: #BEA474;
+          padding-bottom: 10px;
+          border-bottom: 1px solid #BEA474;
+        }
       }
     }
     .product-detail{
@@ -289,6 +406,48 @@
             margin-top: 30px;
             font-weight: bold;
           }
+        }
+      }
+    }
+    .bottom-btn{
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 110px;
+      padding: 10px;
+      box-sizing: border-box;
+      background-color: #fff;
+      border-top: 1px solid #ebebeb;
+      .btn-left{
+        display: flex;
+        float: left;
+        height: 100%;
+        div{
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          padding-top: 10px;
+          width: 129px;
+          height: 100%;
+        }
+      }
+      .submit-btn{
+        display: flex;
+        height: 100%;
+        justify-content: flex-end;
+        div{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 240px;
+          height: 100%;
+          background-color: rgb(233, 59, 57);
+          color: #fff;
+          font-size: 30px;
+        }
+        div:first-child{
+          background-color: #1A191E;
         }
       }
     }

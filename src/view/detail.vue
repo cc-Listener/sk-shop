@@ -1,5 +1,8 @@
 <template>
   <div class="detail">
+    <div style="position: fixed;top: 0">
+
+    </div>
     <div class="good-list">
       <router-link :to="{path: '/goodDetail', query: {id: item.project_id}}" class="good-item" v-for="(item, key) in goodsData" :key="key">
         <img v-lazy="item.img" />
@@ -16,6 +19,7 @@
 </template>
 <script>
   import Header from '@/components/Header'
+  import vConolse from 'vconsole';
 
   export default {
     name: 'Detail',
@@ -26,13 +30,11 @@
       return {
         p: 1,
         goodsData: [],
-        noData: false,
-        requestStatus: false
+        noData: false
       }
     },
     methods:{
       getDetailData(){
-        this.requestStatus = false;
         var id = this.$route.query.id;
         this.$http.get(`data/detail?id=${id}&p=${this.p}&page_size=20`)
           .then( res => {
@@ -42,18 +44,17 @@
             }
             this.goodsData = this.p === 1 ? res.data : this.goodsData.concat(res.data);
             this.p = this.p + 1;
-            this.requestStatus = true;
             if( res.data.length < 20 ) {
               this.noData = true;
             }
         } )
       },
       onScroll() {
-        if( (window.innerHeight + document.documentElement.scrollTop) == document.body.scrollHeight ) {
-            if(this.requestStatus) {
-              this.getDetailData();
-            }
-
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        var windowHeight = document.body.scrollHeight;;
+        var pageHeight = window.innerHeight;
+        if( pageHeight + scrollTop == windowHeight ) {
+          this.getDetailData();
         }
       }
     },
@@ -61,8 +62,10 @@
       var title = this.$route.query.title || '寺库奢侈品';
       document.title = title;
       this.getDetailData();
-      window.addEventListener('scroll', this.onScroll)
     },
+    mounted() {
+      window.addEventListener('scroll', this.onScroll);
+    }
   }
 </script>
 <style lang="scss">

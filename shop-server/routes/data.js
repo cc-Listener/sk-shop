@@ -71,7 +71,6 @@ router.get('/brand_list', function(req, res, next) {
         }
     })
 });
-
 // 判断姓名是否存在
 router.get('/checkname', function(req, res, next) {
     var {
@@ -216,54 +215,63 @@ router.get('/hot_goods_comment',function(req, res, next) {
 // 商品详情
 router.get('/good_detail',function(req, res, next) {
     var { id } = req.query;
-    async.waterfall([
-        function(cb){
-            request(`http://las.secoo.com/api/product/detail_new?upk=&productId=${id}&size=2&c_platform_type=0&_=1519723794125`,function(err, response, body) {
-                var data = JSON.parse(body);
-                var { brandStory, kuChequeInfo, productInfo, imgList, attrList, pickupInfo, categoryId, brandId, brandName, serviceList } = data;
-                // 推荐商品
-                request(`https://lr.secooimg.com/recommend?&productId=${id}&c_platform_type=0&type=similar&count=12&platformType=2&categoryId=${categoryId}&brandId=${brandId}&_=1519869583306`,function(err, ress, body) {
-                    var {productList} = JSON.parse(body);
-                    productList = productList.map( item => {
-                        item.picUrl = '//pic12.secooimg.com/product/300/300/' + item.picUrl;
-                        return item;
-                    } )
-                    var detail = {
-                        productInfo, //商品详情
-                        brandStory, //背景故事
-                        productList, //推荐商品
-                        serviceList,
-                        brandName,
-                        categoryId,
-                        brandId
-
-                    }
-                    cb(null, detail)
-                } );
+    request(`http://las.secoo.com/api/product/detail_new?upk=&productId=${id}&size=2&c_platform_type=0&_=1519723794125`,function(err, response, body) {
+        var data = JSON.parse(body);
+        var { brandStory, kuChequeInfo, productInfo, pickupInfo, brandName, serviceList, wecharManage } = data;
+        var { categoryId, brandId } = productInfo;
+        var detail = { brandStory, kuChequeInfo, productInfo, pickupInfo, brandName, serviceList, categoryId, brandId, wecharManage };
+        res.send(detail);
+    } );
+} );
+// 商品详情-推荐商品
+router.get('/groom',function(req, res, next) {
+    var { categoryId, brandId, id } = req.query;
+    // 推荐商品
+    request(`https://lr.secooimg.com/recommend?&productId=${id}&c_platform_type=0&type=similar&count=12&platformType=2&categoryId=${categoryId}&brandId=${brandId}&_=1519869583306`,function(err, ress, body) {
+        if(err) {
+            res.send(err)
+        } else {
+            var {productList} = JSON.parse(body);
+            productList = productList.map( item => {
+                item.picUrl = '//pic12.secooimg.com/product/300/300/' + item.picUrl;
+                return item;
             } );
-        },
-        function(detail,cb) {
-            // 获取评论列表
-            var { categoryId, brandId } = detail;
-            request(`http://las.secoo.com/api/comment/show_product_comment?upk=&productId=${id}&size=2&c_platform_type=0&type=0&filter=0&page=1&pageSize=8&productBrandId=${brandId}&productCategoryId=${categoryId}&_=1519869583304`,function(err, response, body) {
-                var data = JSON.parse(body);
-                detail.commentData = data;
-                cb(null, detail);
-            } )
-        },
-        function(detail,cb) {
-            // 获取颜色，码数
-            request(`http://las.secoo.com/api/product/spec_new?upk=&productId=${id}&size=2&c_platform_type=0&_=1519876301591`, function(err, response, body) {
-                var data = JSON.parse(body);
-                detail.productSpec = data.productSpec;
-                cb(null, detail);
-            } )
+            res.send(productList);
         }
-    ],function(err, result) {
-        res.send(result);
+
+    } );
+} );
+// 商品详情-商品评论
+router.get('/good_comment',function(req, res, next) {
+    var { categoryId, brandId, id } = req.query;
+    // 获取评论列表
+    request(`http://las.secoo.com/api/comment/show_product_comment?upk=&productId=${id}&size=2&c_platform_type=0&type=0&filter=0&page=1&pageSize=8&productBrandId=${brandId}&productCategoryId=${categoryId}&_=1519869583304`,function(err, response, body) {
+        if(err) {
+            res.send(err);
+        } else {
+            var data = JSON.parse(body);
+            res.send(data);
+        }
+
     } )
 } );
-
+// 商品详情-商品规格
+router.get('/good_spec',function(req, res, next) {
+    var { id } = req.query;
+    // 获取颜色，码数
+    request(`http://las.secoo.com/api/product/spec_new?upk=&productId=${id}&size=2&c_platform_type=0&_=1519876301591`, function(err, response, body) {
+        var data = JSON.parse(body);
+        res.send(data);
+    } )
+} );
+// 商品详情-更多规格信息
+router.get('/good_moreSize',function (req, res, next) {
+    var id = req.query;
+    request(`http://las.secoo.com/api/product/size?productId=${id}&size=2&c_platform_type=0&_=1520501940198`, function(err ,response, body) {
+        var data = JSON.parse(body);
+        res.send(data);
+    } )
+})
 // 晒货评论详情
 router.get('/comment_detail',function(req, res, next) {
     var {id} = req.query;

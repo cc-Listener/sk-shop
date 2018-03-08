@@ -117,7 +117,10 @@
           })
       },
       onScroll() {
-        if( (window.innerHeight + document.documentElement.scrollTop) == document.body.scrollHeight ) {
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        var windowHeight = document.body.scrollHeight;;
+        var pageHeight = window.innerHeight;
+        if( pageHeight + scrollTop == windowHeight ) {
           this.getCommentData();
         }
       }

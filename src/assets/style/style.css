@@ -3,20 +3,31 @@
   background: url('../images/go_left.png') no-repeat center;
   background-size: 43.5px 43.5px;
 }
-.icon-right{
+.icon{
   display: inline-block;
+  background-size: 100% 100% !important;
+}
+.icon-right{
   background: url('../images/icon-right.png');
   width: 16px;
   height: 32px;
-  background-size: 100% 100%;
 }
 .icon-star{
-  display: inline-block;
   background: url('../images/icon-star.png');
   width: 20px;
   height: 20px;
-  background-size: 100% 100%;
 }
+.icon-bag {
+  width: 42px;
+  height: 42px;
+  background: url('../images/icon-bag.png');
+}
+.icon-service {
+  width: 42px;
+  height: 42px;
+  background: url('../images/icon-service.png');
+}
+
 .swiper-slide{
   width: 100%;
   height: 550px;
