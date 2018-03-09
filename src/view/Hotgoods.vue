@@ -1,5 +1,6 @@
 <template>
-  <div class="hotgoods">
+  <Loading v-if="!haveData" />
+  <div class="hotgoods" v-else>
     <swiper :options="swiperOption" ref="mySwiper">
       <swiper-slide v-for="(item, key) in headerData.banners" :key="key">
           <img v-lazy="item.img" />
@@ -69,21 +70,25 @@
         </div>
       </div>
     </div>
-    <Loading />
+    <Spinner v-if="spinnerShow" />
   </div>
 </template>
 <script>
   import { swiper, swiperSlide } from 'vue-awesome-swiper'
+  import Spinner from '../components/Spinner.vue'
   import Loading from '../components/Loading.vue'
   export default {
     name: 'Hotgoods',
     components: {
       swiper,
       swiperSlide,
+      Spinner,
       Loading
     },
     data() {
       return{
+        haveData: false,
+        spinnerShow: false,
         selectIndex: 0,
         swiperOption: {
           notNextTick: true,
@@ -110,10 +115,12 @@
         this.getCommentData();
       },
       getCommentData() {
+        this.haveData = true;
         this.$http.get(`data/hot_goods_comment?lineNumber=${this.lineNumber}&tagId=${this.tagId}`)
           .then(res => {
             this.lineNumber = res.data.lineNumber;
             this.commentData = this.lineNumber === 1 ? res.data.list : this.commentData.concat(res.data.list);
+            this.spinnerShow = false;
           })
       },
       onScroll() {
@@ -121,6 +128,7 @@
         var windowHeight = document.body.scrollHeight;;
         var pageHeight = window.innerHeight;
         if( pageHeight + scrollTop == windowHeight ) {
+          this.spinnerShow = true;
           this.getCommentData();
         }
       }

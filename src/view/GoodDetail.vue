@@ -1,6 +1,20 @@
 <template>
-  <div class="good-detail" v-if="haveData">
-    <swiper :options="swiperOption" ref="mySwiper" class="banner">
+  <Loading v-if="!haveData" />
+  <div class="good-detail" v-else>
+    <!-- 头部 -->
+    <div class="header-view" :class="headerFix ? 'fix-top' : ''">
+      <div v-for="(item, key) in headerData.item" :key="key" class="header-item" @click="tabHander(key)">
+        <span v-if="item.href" :class="headerData.selectId == key ? 'on' : ''">{{item.title}}</span>
+        <i v-else :class="item.title === 'goback' ? 'go-left' : 'icon icon-home'"></i>
+      </div>
+      <!-- <i class="go-left" :class="selectI" @click="goBack"></i>
+      <a href="#good">商品</a>
+      <a href="#comment">评论</a>
+      <a href="#detail">详情</a>
+      <a href="#groom">推荐</a>
+      <i class="icon icon-home" @click="goHome"></i> -->
+    </div>
+    <swiper :options="swiperOption" ref="mySwiper" class="banner" id="good">
       <swiper-slide v-for="(item, key) in detail.productInfo.imgList">
         <img v-lazy="item" />
       </swiper-slide>
@@ -21,7 +35,7 @@
           <i class="icon icon-right"></i>
         </div>
       </div>
-      <div class="service-list item-border-bottom">
+      <div class="service-list item-border-bottom" v-if="detail.pickupInfo.title">
         <p>{{detail.pickupInfo.title}}</p>
         <div>
           <span>{{detail.pickupInfo.subTitle}}</span>
@@ -37,14 +51,14 @@
       </div>
     </div>
     <!-- 规格信息 -->
-    <div class="sepc-view">
-      <div class="wrap-view">
+    <div class="sepc-view" v-if="specData.productSpec">
+      <div class="wrap-view" v-if="specData.productSpec[0]">
         <h3>{{specData.productSpec[0].title}}</h3>
         <div class="color-list">
           <div v-for="(item, key) in specData.productSpec[0].values" :key="key" class="color-item">{{item.title}}</div>
         </div>
       </div>
-      <div class="wrap-view">
+      <div class="wrap-view"  v-if="specData.productSpec[1]">
         <h3>{{specData.productSpec[1].title}}</h3>
         <div class="color-list">
           <div v-for="(item, key) in specData.productSpec[1].values" :key="key" class="color-item">{{item.title}}</div>
@@ -70,6 +84,7 @@
       </table>
     </div>
     <!-- 用户评价 -->
+    <div id="comment"></div>
     <div class="product-comment item-border-top">
       <h2>用户评价 <span v-if="commentData.retCode != 1">( {{commentData.totalCurrCommentNum}} )</span></h2>
       <div class="comment-acount">
@@ -86,16 +101,17 @@
         </div>
       </div>
     </div>
-    <div class="border-line item-border-top"></div>
+    <div class="border-line item-border-top" id="detail"></div>
     <!-- 商品详情 -->
     <div class="goods-detail">
       <h2>商品详情</h2>
-      <img v-lazy="item.info" v-for="(item, key) in detail.productInfo.detail" :key="key" />
+      <img v-lazy="item.info" v-for="(item, key) in detail.productInfo.detail" :key="key" v-if="item.type == 0" />
+      <p v-else class="info">{{item.info}}</p>
     </div>
     <!-- 精品推荐 -->
-    <div class="product-groom">
+    <div class="product-groom" id="groom">
       <p class="title">- 精品推荐 -</p>
-      <router-link :to="{path: '/goodDetail', query: {id: item.id, status: 'groom'}}" class="good-item item-border-bottom" v-for="(item, key) in productList" :key="key">
+      <router-link :to="{path: '/goodDetail', query: {id: item.id}}" class="good-item item-border-bottom" v-for="(item, key) in productList" :key="key">
         <img v-lazy="item.picUrl" />
         <div class="desc">
           <p class="name">{{item.name}}</p>
@@ -124,18 +140,43 @@
 </template>
 <script>
   import { swiper, swiperSlide } from 'vue-awesome-swiper'
+  import Loading from '../components/Loading.vue'
   export default{
     name: 'GoodDetail',
     components: {
       swiper,
-      swiperSlide
+      swiperSlide,
+      Loading
     },
     data(){
       return {
+        headerFix: false,
         productInfo: [],
         specData: [],
         commentData: [],
         productList: [],
+        headerData:{
+          selectId: 1,
+          item: [
+          {
+            title:'goback',
+          },{
+            title:'商品',
+            href: 'good',
+          },{
+            title:'评论',
+            href: 'comment',
+          },{
+            title:'详情',
+            href: 'detail',
+          },{
+            title:'推荐',
+            href: 'groom',
+          },{
+            title:'gohome'
+          },
+          ]
+        },
         brandName: '',
         haveData: false,
         swiperOption: {
@@ -152,6 +193,47 @@
       }
     },
     methods:{
+      tabHander(index) {
+        if( index == 0 ) {
+          this.$router.go(-1);
+        } else if( index == 5 ) {
+          this.$router.push('/')
+        } else {
+          this.headerData.selectId = index;
+          const href = this.headerData.item[index].href;
+          const offsetTop = document.getElementById(href).offsetTop;
+          document.documentElement.scrollTop = offsetTop;
+          // var Timer = setInterval(() => {
+          //   var offset = Math.abs(offsetTop - document.documentElement.scrollTop);
+          //   if( document.documentElement.scrollTop < offsetTop ) {
+          //     if( offset < 15 ) {
+          //       document.documentElement.scrollTop += offset;
+          //     } else {
+          //       document.documentElement.scrollTop += 15;
+          //     }
+          //   } else if( document.documentElement.scrollTop > offsetTop ){
+          //     if( offset < 15 ) {
+          //       document.documentElement.scrollTop += offset;
+          //     } else {
+          //       document.documentElement.scrollTop -= 15;
+          //     }
+          //   } else {
+          //     document.documentElement.scrollTop = offsetTop;
+          //     clearInterval(Timer)
+          //   }
+          // },1);
+        }
+
+      },
+      onScroll() {
+        var offsetTop = document.getElementById('good').offsetTop;
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        if( scrollTop - 5 > offsetTop ) {
+          this.headerFix = true;
+        } else if ( scrollTop <= 20 ) {
+          this.headerFix = false;
+        }
+      },
       checkDate(time) {
         var date = new Date(time);
         return [date.getFullYear(), this.checkTime(date.getMonth() + 1), this.checkTime(date.getDate())].join('.');
@@ -183,25 +265,54 @@
                 this.specData = res.data;
               } );
             // 获取更多规格
-            // this.$http.get(`data/good_moreSize?id=${id}`)
-            //   .then( res => {
-            //     this.moreSizeData = res.data;
-            //   } )
+            this.$http.get(`data/good_moreSize?id=${id}`)
+              .then( res => {
+                this.moreSizeData = res.data;
+              } )
           } )
       }
     },
     created() {
       this.requestData();
+      window.addEventListener('scroll', this.onScroll);
     },
     watch: {
       '$route' (to, from) {
-        console.log(to, from);
+        this.haveData = false;
+        this.requestData();
       }
     }
   }
 </script>
 <style lang="scss">
   .good-detail{
+    padding-bottom: 110px;
+    .fix-top{
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 999;
+    }
+    .header-view{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      // padding: 0 50px 0 30px;
+      width: 100%;
+      height: 88px;
+      background-color: #f9f9f9;
+      font-size: 28px;
+      .header-item{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 18.8%;
+      }
+      .on{
+        color: #BEA474;
+      }
+    }
     .border-line{
       width: 100%;
       height: 1px; /*no*/
@@ -341,11 +452,15 @@
             margin-right: 7px;
           }
           .content{
-            margin: 20px 0;
+            margin: 20px 20px 20px 0;
+            line-height: 1.5;
           }
           .date{
             margin-right: 50px;
           }
+        }
+        .comment-item:last-child{
+          padding-bottom: 0;
         }
       }
     }
@@ -358,6 +473,11 @@
         width: 100%;
         height: auto;
         margin-bottom: 20px;
+      }
+      .info{
+        margin-top: 25px;
+        line-height: 1.5;
+        font-size: 28px;
       }
     }
     .product-groom{

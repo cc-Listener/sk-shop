@@ -266,10 +266,14 @@ router.get('/good_spec',function(req, res, next) {
 } );
 // 商品详情-更多规格信息
 router.get('/good_moreSize',function (req, res, next) {
-    var id = req.query;
-    request(`http://las.secoo.com/api/product/size?productId=${id}&size=2&c_platform_type=0&_=1520501940198`, function(err ,response, body) {
-        var data = JSON.parse(body);
-        res.send(data);
+    var {id} = req.query;
+    request(`http://las.secoo.com/api/product/color_spec?upk=&productId=${id}&size=2&c_platform_type=0&_=1520560710347`, function(err ,response, body) {
+        if( err ) {
+            res.send(err)
+        } else {
+            var data = JSON.parse(body);
+            res.send(data);
+        }
     } )
 })
 // 晒货评论详情

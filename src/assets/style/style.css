@@ -2,6 +2,8 @@
 .go-left{
   background: url('../images/go_left.png') no-repeat center;
   background-size: 43.5px 43.5px;
+  width: 42px;
+  height: 44px;
 }
 .icon{
   display: inline-block;
@@ -27,6 +29,11 @@
   height: 42px;
   background: url('../images/icon-service.png');
 }
+.icon-home{
+  width: 38px;
+  height: 39px;
+  background-image: url('../images/icon-home.png');
+}
 
 .swiper-slide{
   width: 100%;
@@ -43,6 +50,22 @@
 .swiper-slide img{
   width: 100%;
   height: 100%;
+}
+
+.fixed-bottom{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+}
+.mask{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: .3s;
+  background-color: rgba(0, 0, 0, .6);
 }
 /*0.5px border*/
 .item-border-left,
