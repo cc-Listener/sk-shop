@@ -209,6 +209,29 @@
       onScroll() {
         var offsetTop = document.getElementById('good').offsetTop;
         var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        var navHeight = document.getElementsByClassName('nav')[0].offsetHeight;
+
+        var goodHref = document.getElementById('good').offsetTop - navHeight;
+        var commentHref = document.getElementById('comment').offsetTop - navHeight;
+        var detailHref = document.getElementById('detail').offsetTop - navHeight;
+        var groomHref = document.getElementById('groom').offsetTop - navHeight;
+
+        if( scrollTop < commentHref ) {
+          this.headerData.selectId = 1;
+        }
+
+        if( commentHref < scrollTop && scrollTop < detailHref ) {
+          this.headerData.selectId = 2;
+        }
+
+        if( detailHref < scrollTop && scrollTop < groomHref ) {
+          this.headerData.selectId = 3;
+        }
+
+        if( scrollTop >= groomHref ) {
+          this.headerData.selectId = 4;
+        }
+
         if( scrollTop > offsetTop ) {
           this.headerFix = true;
         } else if ( scrollTop <= 20 ) {
@@ -537,6 +560,11 @@
           padding-top: 10px;
           width: 129px;
           height: 100%;
+          a{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          }
         }
       }
       .submit-btn{
