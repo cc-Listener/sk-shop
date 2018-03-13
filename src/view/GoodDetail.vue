@@ -2,17 +2,13 @@
   <Loading v-if="!haveData" />
   <div class="good-detail" v-else>
     <!-- 头部 -->
-    <div class="header-view" :class="headerFix ? 'fix-top' : ''">
-      <div v-for="(item, key) in headerData.item" :key="key" class="header-item" @click="tabHander(key)">
-        <span v-if="item.href" :class="headerData.selectId == key ? 'on' : ''">{{item.title}}</span>
-        <i v-else :class="item.title === 'goback' ? 'go-left' : 'icon icon-home'"></i>
+    <div class="header-view">
+      <div class="nav" :class="headerFix ? 'fix-top' : ''">
+        <div v-for="(item, key) in headerData.item" :key="key" class="header-item" @click="tabHander(key)">
+          <span v-if="item.href" :class="headerData.selectId == key ? 'on' : ''">{{item.title}}</span>
+          <i v-else :class="item.title === 'goback' ? 'go-left' : 'icon icon-home'"></i>
+        </div>
       </div>
-      <!-- <i class="go-left" :class="selectI" @click="goBack"></i>
-      <a href="#good">商品</a>
-      <a href="#comment">评论</a>
-      <a href="#detail">详情</a>
-      <a href="#groom">推荐</a>
-      <i class="icon icon-home" @click="goHome"></i> -->
     </div>
     <swiper :options="swiperOption" ref="mySwiper" class="banner" id="good">
       <swiper-slide v-for="(item, key) in detail.productInfo.imgList">
@@ -84,8 +80,7 @@
       </table>
     </div>
     <!-- 用户评价 -->
-    <div id="comment"></div>
-    <div class="product-comment item-border-top">
+    <div class="product-comment item-border-top"  id="comment">
       <h2>用户评价 <span v-if="commentData.retCode != 1">( {{commentData.totalCurrCommentNum}} )</span></h2>
       <div class="comment-acount">
         <span>综合评分 {{commentData.productGrade ? commentData.productGrade : '5.0'}}</span>
@@ -109,8 +104,9 @@
       <p v-else class="info">{{item.info}}</p>
     </div>
     <!-- 精品推荐 -->
-    <div class="product-groom" id="groom">
+    <div class="product-groom">
       <p class="title">- 精品推荐 -</p>
+      <div id="groom"></div>
       <router-link :to="{path: '/goodDetail', query: {id: item.id}}" class="good-item item-border-bottom" v-for="(item, key) in productList" :key="key">
         <img v-lazy="item.picUrl" />
         <div class="desc">
@@ -127,8 +123,10 @@
           <p>客服</p>
         </div>
         <div>
-          <i class="icon icon-bag"></i>
-          <p>购物袋</p>
+          <router-link to="/cart">
+            <i class="icon icon-bag"></i>
+            <p>购物袋</p>
+          </router-link>
         </div>
       </div>
       <div class="submit-btn">
@@ -197,38 +195,21 @@
         if( index == 0 ) {
           this.$router.go(-1);
         } else if( index == 5 ) {
-          this.$router.push('/')
+          this.$router.push('/');
         } else {
           this.headerData.selectId = index;
           const href = this.headerData.item[index].href;
           const offsetTop = document.getElementById(href).offsetTop;
-          document.documentElement.scrollTop = offsetTop;
-          // var Timer = setInterval(() => {
-          //   var offset = Math.abs(offsetTop - document.documentElement.scrollTop);
-          //   if( document.documentElement.scrollTop < offsetTop ) {
-          //     if( offset < 15 ) {
-          //       document.documentElement.scrollTop += offset;
-          //     } else {
-          //       document.documentElement.scrollTop += 15;
-          //     }
-          //   } else if( document.documentElement.scrollTop > offsetTop ){
-          //     if( offset < 15 ) {
-          //       document.documentElement.scrollTop += offset;
-          //     } else {
-          //       document.documentElement.scrollTop -= 15;
-          //     }
-          //   } else {
-          //     document.documentElement.scrollTop = offsetTop;
-          //     clearInterval(Timer)
-          //   }
-          // },1);
+          var navHeight = document.getElementsByClassName('nav')[0].offsetHeight;
+
+          document.documentElement.scrollTop = offsetTop - navHeight;
         }
 
       },
       onScroll() {
         var offsetTop = document.getElementById('good').offsetTop;
         var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-        if( scrollTop - 5 > offsetTop ) {
+        if( scrollTop > offsetTop ) {
           this.headerFix = true;
         } else if ( scrollTop <= 20 ) {
           this.headerFix = false;
@@ -294,14 +275,16 @@
       z-index: 999;
     }
     .header-view{
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      // padding: 0 50px 0 30px;
-      width: 100%;
       height: 88px;
-      background-color: #f9f9f9;
       font-size: 28px;
+      .nav{
+        width: 100%;
+        height: 88px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f9f9f9;
+      }
       .header-item{
         display: flex;
         align-items: center;
@@ -466,13 +449,17 @@
     }
     .goods-detail{
       margin: 0 50px;
+      font-size: 0;
       h2{
         margin: 60px 0;
+        font-size: 36px;
       }
       img{
         width: 100%;
         height: auto;
-        margin-bottom: 20px;
+      }
+      img:last-child{
+        margin-bottom: 60px;
       }
       .info{
         margin-top: 25px;
