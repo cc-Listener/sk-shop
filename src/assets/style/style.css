@@ -9,6 +9,11 @@
   display: inline-block;
   background-size: 100% 100% !important;
 }
+.icon-flag img{
+  width: 46px;
+  height: 38px;
+  margin-right: 10px;
+}
 .icon-right{
   background: url('../images/icon-right.png');
   width: 16px;
@@ -34,7 +39,11 @@
   height: 39px;
   background-image: url('../images/icon-home.png');
 }
-
+.icon-info{
+  width: 24px;
+  height: 24px;
+  background-image: url('../images/icon-info.png');
+}
 .swiper-slide{
   width: 100%;
   height: 550px;

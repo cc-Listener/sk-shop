@@ -18,9 +18,24 @@
     </swiper>
     <!-- 商品详情 -->
     <div class="product-info">
-      <p class="price">{{detail.productInfo.priceInfo.nowPrice}}</p>
+      <div class="price-main">
+        <p class="price">{{detail.productInfo.priceInfo.nowPrice}}</p>
+        <span v-for="item in detail.productInfo.priceInfo.priceTagListNew" class="span-red" :style="{color: '#' + detail.productInfo.priceInfo.nowPriceColor, borderColor: '#' + detail.productInfo.priceInfo.tagBorderColor, backgroundColor: '#' + detail.productInfo.priceInfo.tagBgColor}">{{item.tag}}</span>
+      </div>
+      <div class="price-info">
+          <span v-if="detail.productInfo.level">{{detail.productInfo.level}}<i class="icon-info icon"></i></span>
+          <span v-if="detail.productInfo.tax">{{detail.productInfo.tax}}<i class="icon-info icon"></i></span>
+      </div>
+
       <p class="title"><span>{{detail.brandName}}</span>{{detail.productInfo.title}}</p>
-      <p>{{detail.productInfo.areaName}} {{detail.productInfo.deliverInfo}}</p>
+      <div class="carriage">
+        <span v-if="detail.productInfo.areaName" class="carriage-overseas">
+          <i v-if="detail.productInfo.areaIcon" class="icon-flag">
+            <img v-lazy="detail.productInfo.areaIcon">
+          </i>{{detail.productInfo.areaName}}
+        </span>{{detail.productInfo.deliverInfo}}
+        <p v-for="(item, key) in detail.productInfo.specialDesc" :key="key">{{item}}</p>
+      </div>
     </div>
     <!-- 商品服务 -->
     <div class="product-service item-border-top">
@@ -283,6 +298,7 @@
     watch: {
       '$route' (to, from) {
         this.haveData = false;
+        this.headerData.selectId = 1;
         this.requestData();
       }
     }
@@ -349,6 +365,21 @@
       .price{
         color: rgb(233, 59, 57);
         font-size: 48px;
+        font-weight: bold;
+      }
+      .price-main{
+        display: flex;
+        align-items: flex-start;
+      }
+      .span-red{
+        display: inline-block;
+        padding: 5px;
+        color: #E93B39;
+        font-size: 24px;
+        border: 1px solid #E93B39; /* no */
+        letter-spacing: 0.5px; /* no */
+        border-radius: 1px; /* no */
+        margin-left: 20px;
       }
       .title{
         font-size: 30px;
@@ -356,6 +387,23 @@
         margin: 30px 0;
         span{
           color: #BEA474;
+        }
+      }
+      .price-info span{
+        display: flex;
+        align-items: center;
+        color: #999;
+        margin-top: 30px;
+        .icon{
+          margin-left: 5px;
+        }
+      }
+      .carriage{
+        line-height: 1.8;
+        font-size: 26px;
+
+        .carriage-overseas{
+          margin-right: 10px;
         }
       }
     }
