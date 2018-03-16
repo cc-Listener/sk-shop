@@ -1,6 +1,7 @@
 <template>
   <Loading v-if="!haveData" />
   <div class="good-detail" v-else>
+    <Alert :title="alertTitle" :subTitle="alertDesc" @alertShow="hideAlert" :shows="alertShow" v-show="alertShow" :type="alertType" />
     <!-- 头部 -->
     <div class="header-view">
       <div class="nav" :class="headerFix ? 'fix-top' : ''">
@@ -23,8 +24,8 @@
         <span v-for="item in detail.productInfo.priceInfo.priceTagListNew" class="span-red" :style="{color: '#' + detail.productInfo.priceInfo.nowPriceColor, borderColor: '#' + detail.productInfo.priceInfo.tagBorderColor, backgroundColor: '#' + detail.productInfo.priceInfo.tagBgColor}">{{item.tag}}</span>
       </div>
       <div class="price-info">
-          <span v-if="detail.productInfo.level">{{detail.productInfo.level}}<i class="icon-info icon"></i></span>
-          <span v-if="detail.productInfo.tax">{{detail.productInfo.tax}}<i class="icon-info icon"></i></span>
+          <span v-if="detail.productInfo.level">{{detail.productInfo.level}}<i class="icon-info icon" @click="showAlert"></i></span>
+          <span v-if="detail.productInfo.tax">{{detail.productInfo.tax}}<i class="icon-info icon" @click="showAlert(detail.productInfo.taxTitle, detail.productInfo.taxDesc, 'tax')"></i></span>
       </div>
 
       <p class="title"><span>{{detail.brandName}}</span>{{detail.productInfo.title}}</p>
@@ -53,7 +54,7 @@
           <i class="icon icon-right"></i>
         </div>
       </div>
-      <div class="service-list item-border-bottom">
+      <div class="service-list item-border-bottom" @click="showAlert('请长按复制', detail.wecharManage.wechar, 'message')">
         <p>{{detail.wecharManage.title}}</p>
         <div>
           <span>{{detail.wecharManage.subTitle}}</span>
@@ -154,16 +155,26 @@
 <script>
   import { swiper, swiperSlide } from 'vue-awesome-swiper'
   import Loading from '../components/Loading.vue'
+  import Alert from '@/components/Alert'
+  import Dialog from '@/components/Dialog'
+
   export default{
     name: 'GoodDetail',
     components: {
       swiper,
       swiperSlide,
-      Loading
+      Loading,
+      Alert,
+      Dialog
     },
     data(){
       return {
         headerFix: false,
+        alertShow: false,
+        dialogShow: false,
+        alertTitle: '',
+        alertDesc: '',
+        alertType: '',
         productInfo: [],
         specData: [],
         commentData: [],
@@ -220,6 +231,15 @@
           document.documentElement.scrollTop = offsetTop - navHeight;
         }
 
+      },
+      showAlert(title, desc, type) {
+        this.alertTitle = title;
+        this.alertDesc = desc;
+        this.alertType = type;
+        this.alertShow = true;
+      },
+      hideAlert(data) {
+        this.alertShow = data;
       },
       onScroll() {
         var offsetTop = document.getElementById('good').offsetTop;
@@ -307,11 +327,12 @@
 <style lang="scss">
   .good-detail{
     padding-bottom: 110px;
+    z-index: 11;
     .fix-top{
       position: fixed;
       top: 0;
       left: 0;
-      z-index: 999;
+      z-index: 100;
     }
     .header-view{
       height: 88px;
@@ -385,6 +406,7 @@
         font-size: 30px;
         line-height: 1.5;
         margin: 30px 0;
+        font-weight: bold;
         span{
           color: #BEA474;
         }

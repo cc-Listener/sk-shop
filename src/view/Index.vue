@@ -24,7 +24,7 @@
 
     <div class="category-title">分类 CATEGORY</div>
     <div class="category-view">
-      <router-link :to="{path: '/detail', query: {id: item.id, title: item.title}}" v-for="(item, key ) in indexData.category" :key="key" class="category-item">
+      <router-link :to="{path: '/detail', query: {id: item.id, title: item.title}}" v-for="(item, key ) in indexData.index_category" :key="key" class="category-item">
         <img v-lazy="baseImgUrl + item.img" />
         <div class="title-view">
           <p>{{item.title}}</p>

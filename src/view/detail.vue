@@ -1,8 +1,6 @@
 <template>
-  <div class="detail">
-    <div style="position: fixed;top: 0">
-
-    </div>
+  <Loading v-if="loadShow" />
+  <div class="detail" v-else>
     <div class="good-list">
       <router-link :to="{path: '/goodDetail', query: {id: item.project_id}}" class="good-item" v-for="(item, key) in goodsData" :key="key">
         <img v-lazy="item.img" />
@@ -19,18 +17,20 @@
 </template>
 <script>
   import Header from '@/components/Header'
-  import vConolse from 'vconsole';
+  import Loading from '@/components/Loading'
 
   export default {
     name: 'Detail',
     components: {
-      Header
+      Header,
+      Loading
     },
     data() {
       return {
         p: 1,
         goodsData: [],
-        noData: false
+        noData: false,
+        loadShow: true
       }
     },
     methods:{
@@ -38,6 +38,7 @@
         var id = this.$route.query.id;
         this.$http.get(`data/detail?id=${id}&p=${this.p}&page_size=20`)
           .then( res => {
+            this.loadShow = false;
             if( res.data.length === 0 ) {
               this.noData = true;
               return
