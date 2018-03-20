@@ -2,6 +2,7 @@
   <Loading v-if="!haveData" />
   <div class="good-detail" v-else>
     <Alert :title="alertTitle" :subTitle="alertDesc" @alertShow="hideAlert" :shows="alertShow" v-show="alertShow" :type="alertType" />
+    <Dialog :serverData="detail.serviceList" :type="dialogType" v-if="dialogShow" />
     <!-- 头部 -->
     <div class="header-view">
       <div class="nav" :class="headerFix ? 'fix-top' : ''">
@@ -67,19 +68,19 @@
       <div class="wrap-view" v-if="specData.productSpec[0]">
         <h3>{{specData.productSpec[0].title}}</h3>
         <div class="color-list">
-          <div v-for="(item, key) in specData.productSpec[0].values" :key="key" class="color-item">{{item.title}}</div>
+          <div v-for="(item, key) in specData.productSpec[0].values" :key="key" class="color-item" :class="key === 0 && specData.productSpec[0].values.length === 1 ? 'select' : ''">{{item.title}}</div>
         </div>
       </div>
-      <div class="wrap-view"  v-if="specData.productSpec[1]">
+      <div class="wrap-view" v-if="specData.productSpec[1]">
         <h3>{{specData.productSpec[1].title}}</h3>
         <div class="color-list">
-          <div v-for="(item, key) in specData.productSpec[1].values" :key="key" class="color-item">{{item.title}}</div>
+          <div v-for="(item, key) in specData.productSpec[1].values" :key="key" class="color-item" :class="key === 0 && specData.productSpec[1].values.length === 1 ? 'select' : ''">{{item.title}}</div>
           <div class="size-show">尺码信息</div>
         </div>
       </div>
     </div>
     <!-- 商家服务 -->
-    <div class="service-view">
+    <div class="service-view" @click="showDialog('service')">
       <div class="service-item" v-for="(item, key) in detail.serviceList" :key="key">
         <img v-lazy="item.icon"/>
         <p>{{item.name}}</p>
@@ -96,7 +97,7 @@
       </table>
     </div>
     <!-- 用户评价 -->
-    <div class="product-comment item-border-top"  id="comment">
+    <router-link to="/comment" class="product-comment item-border-top"  id="comment">
       <h2>用户评价 <span v-if="commentData.retCode != 1">( {{commentData.totalCurrCommentNum}} )</span></h2>
       <div class="comment-acount">
         <span>综合评分 {{commentData.productGrade ? commentData.productGrade : '5.0'}}</span>
@@ -111,7 +112,7 @@
           <span>{{item.productSpec}}</span>
         </div>
       </div>
-    </div>
+    </router-link>
     <div class="border-line item-border-top" id="detail"></div>
     <!-- 商品详情 -->
     <div class="goods-detail">
@@ -132,7 +133,7 @@
       </router-link>
     </div>
     <!-- 底部固定 -->
-    <div class="bottom-btn">
+    <div class="bottom-btn" :class="dialogShow ? 'hidden' : ''">
       <div class="btn-left">
         <div class="item-border-right">
           <i class="icon icon-service"></i>
@@ -172,6 +173,7 @@
         headerFix: false,
         alertShow: false,
         dialogShow: false,
+        dialogType: '',
         alertTitle: '',
         alertDesc: '',
         alertType: '',
@@ -240,6 +242,10 @@
       },
       hideAlert(data) {
         this.alertShow = data;
+      },
+      showDialog(type) {
+        this.dialogShow = true;
+        this.dialogType = type;
       },
       onScroll() {
         var offsetTop = document.getElementById('good').offsetTop;
@@ -472,6 +478,10 @@
       }
       .wrap-view{
         display: flex;
+        .select{
+          background-color: #000;
+          color: #fff;
+        }
         .color-list{
           .color-item{
             display: inline-block;
@@ -500,6 +510,7 @@
       }
     }
     .product-comment{
+      display: block;
       padding: 60px 0;
       h2{
         margin: 0;
@@ -609,6 +620,9 @@
         }
       }
     }
+    .bottom-btn.hidden{
+      transform: translateY(100%);
+    }
     .bottom-btn{
       position: fixed;
       bottom: 0;
@@ -619,6 +633,7 @@
       box-sizing: border-box;
       background-color: #fff;
       border-top: 1px solid #ebebeb;
+      transition: .5s;
       .btn-left{
         display: flex;
         float: left;

@@ -44,6 +44,12 @@
   height: 24px;
   background-image: url('../images/icon-info.png');
 }
+.icon-close{
+  width: 29px;
+  height: 29px;
+  background-image: url('../images/icon-close.png');
+}
+
 .swiper-slide{
   width: 100%;
   height: 550px;
