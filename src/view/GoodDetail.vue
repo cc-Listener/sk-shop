@@ -2,7 +2,7 @@
   <Loading v-if="!haveData" />
   <div class="good-detail" v-else>
     <Alert :title="alertTitle" :subTitle="alertDesc" @alertShow="hideAlert" :shows="alertShow" v-show="alertShow" :type="alertType" />
-    <Dialog :serverData="detail.serviceList" :type="dialogType" v-if="dialogShow" />
+    <Dialog :serverData="detail.serviceList" :pickupData="detail.pickupInfo" :sizeData="moreSizeData" :type="dialogType" :show="dialogShow" v-if="dialogShow" @dialogShow="hideDialog" />
     <!-- 头部 -->
     <div class="header-view">
       <div class="nav" :class="headerFix ? 'fix-top' : ''">
@@ -48,7 +48,7 @@
           <i class="icon icon-right"></i>
         </div>
       </div>
-      <div class="service-list item-border-bottom" v-if="detail.pickupInfo.title">
+      <div class="service-list item-border-bottom" v-if="detail.pickupInfo.title" @click="showDialog('pickup')">
         <p>{{detail.pickupInfo.title}}</p>
         <div>
           <span>{{detail.pickupInfo.subTitle}}</span>
@@ -75,7 +75,7 @@
         <h3>{{specData.productSpec[1].title}}</h3>
         <div class="color-list">
           <div v-for="(item, key) in specData.productSpec[1].values" :key="key" class="color-item" :class="key === 0 && specData.productSpec[1].values.length === 1 ? 'select' : ''">{{item.title}}</div>
-          <div class="size-show">尺码信息</div>
+          <div class="size-show" @click="showDialog('moresize')">尺码信息</div>
         </div>
       </div>
     </div>
@@ -242,6 +242,9 @@
       },
       hideAlert(data) {
         this.alertShow = data;
+      },
+      hideDialog(data) {
+        this.dialogShow = data;
       },
       showDialog(type) {
         this.dialogShow = true;
@@ -633,7 +636,7 @@
       box-sizing: border-box;
       background-color: #fff;
       border-top: 1px solid #ebebeb;
-      transition: .5s;
+      transition: .2s;
       .btn-left{
         display: flex;
         float: left;

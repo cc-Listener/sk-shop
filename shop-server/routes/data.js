@@ -307,7 +307,7 @@ router.get('/good_moreSize', function(req, res, next) {
     var {
         id
     } = req.query;
-    request(`http://las.secoo.com/api/product/color_spec?upk=&productId=${id}&size=2&c_platform_type=0&_=1520560710347`, function(err, response, body) {
+    request(`http://las.secoo.com/api/product/size?upk=&productId=${id}&size=2&c_platform_type=0&_=1521617937073`, function(err, response, body) {
         if (err) {
             res.send(err)
         } else {

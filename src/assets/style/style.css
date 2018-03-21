@@ -24,7 +24,7 @@
   width: 20px;
   height: 20px;
 }
-.icon-bag {
+.icon-bag{
   width: 42px;
   height: 42px;
   background: url('../images/icon-bag.png');
@@ -49,7 +49,6 @@
   height: 29px;
   background-image: url('../images/icon-close.png');
 }
-
 .swiper-slide{
   width: 100%;
   height: 550px;
@@ -71,12 +70,10 @@
   position: fixed;
   bottom: 0;
   left: 0;
+  bottom: 0;
   z-index: 100;
 }
 .mask{
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   transition: .3s;
@@ -85,6 +82,7 @@
 }
 .mask.show{
   background-color: rgba(0, 0, 0, 0.6);
+  z-index: 150;
 }
 /*0.5px border*/
 .item-border-left,
