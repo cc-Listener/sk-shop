@@ -51,7 +51,7 @@
     transition: .15s;
     .container.show{
       transform: scale(1) !important;
-      z-index: 100;
+      z-index: 151;
     }
     .container{
       position: absolute;
