@@ -337,6 +337,8 @@
   .good-detail{
     padding-bottom: 110px;
     z-index: 11;
+    width: 100%;
+    overflow: hidden;
     .fix-top{
       position: fixed;
       top: 0;
