@@ -1,7 +1,7 @@
 <template>
-  <div class="alert-view" :class=" shows ? 'show' : '' ">
-    <div class="mask" :class=" shows ? 'show' : '' "></div>
-    <div class="container" :class=" shows ? 'show' : '' ">
+  <div class="alert-view" :class="{ show: shows }">
+    <div class="mask" :class="{ show: shows }"></div>
+    <div class="container" :class="{ show: shows }">
       <div class="item-border-bottom">
         <p class="title" :class="type == 'tax' ? 'through' : ''" :data-type="type">{{title}}</p>
         <p class="subTitle" :class="type == 'message' ? 'textCenter' : ''">{{subTitle}}</p>

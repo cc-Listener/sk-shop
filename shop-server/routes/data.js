@@ -16,7 +16,7 @@ router.get('/index_data', function(req, res, next) {
     reqArr.map((item, index) => {
         connection.query(`select * from ${item}`, function(err, result) {
             if (err) {
-                console.log(err.sqlMessage);
+                res.send(err);
             } else {
                 indexData[`${item}`] = result;
                 if (index == reqArr.length - 1) {
